@@ -1,0 +1,37 @@
+{
+  "version": "1.0",
+  "updated_at": "2026-02-11T19:13:24Z",
+  "recommended_agents": [
+    {
+      "name": "backend-developer",
+      "recommended": true,
+      "reason": "Rust backend implementation for CLI tool, server, and API endpoints"
+    },
+    {
+      "name": "tech-lead",
+      "recommended": true,
+      "reason": "Complex architectural decisions around VFS, snapshot system, and synchronization protocol"
+    },
+    {
+      "name": "unit-test-specialist",
+      "recommended": true,
+      "reason": "Extensive test coverage with Insta snapshots and Criterion benchmarks needed"
+    },
+    {
+      "name": "code-reviewer",
+      "recommended": true,
+      "reason": "Rust safety guarantees and performance-critical code paths require careful review"
+    },
+    {
+      "name": "ci-cd-engineer",
+      "recommended": true,
+      "reason": "Cross-platform Rust builds for Windows, macOS, and Linux with plugin deployment"
+    }
+  ],
+  "model_preferences": {
+    "orchestrator": "opus",
+    "worker": "sonnet",
+    "fast": "haiku"
+  },
+  "notes": "Rojo is a sophisticated Rust CLI tool for Roblox development with a multi-threaded server, WebSocket sync protocol, and complex snapshot/patch system. Focus on async/concurrency patterns, Roblox DOM manipulation, and filesystem abstraction."
+}

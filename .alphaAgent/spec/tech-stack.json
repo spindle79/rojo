@@ -1,0 +1,1155 @@
+{
+  "version": "1.0",
+  "project": {
+    "name": "rojo",
+    "description": "Enables professional-grade development tools for Roblox developers - enables use of VS Code, Git, and other industry-standard tools for Roblox game development",
+    "repository": "https://github.com/rojo-rbx/rojo",
+    "homepage": "https://rojo.space",
+    "documentation": "https://rojo.space/docs",
+    "license": "MPL-2.0",
+    "rustVersion": ">=1.88",
+    "projectType": "CLI Tool / Library",
+    "currentVersion": "7.7.0-rc.1"
+  },
+  "core_frameworks": [
+    {
+      "name": "Rust",
+      "package": "rust",
+      "version": "1.88",
+      "type": "language",
+      "purpose": "Primary programming language for the entire Rojo project",
+      "documentation": "https://www.rust-lang.org/",
+      "github": "https://github.com/rust-lang/rust",
+      "features": [
+        "Memory safety without garbage collection",
+        "Zero-cost abstractions",
+        "Fearless concurrency",
+        "Trait system for polymorphism"
+      ]
+    },
+    {
+      "name": "rbx-dom",
+      "package": "rbx_dom_weak",
+      "version": "4.1.0",
+      "installed_version": "4.1.0",
+      "type": "framework",
+      "purpose": "Core library for manipulating Roblox DOM (instance tree) structures",
+      "documentation": "https://github.com/rojo-rbx/rbx-dom",
+      "github": "https://github.com/rojo-rbx/rbx-dom",
+      "usage": [
+        "Building and manipulating instance trees",
+        "Type reference system integration",
+        "Instance property management"
+      ],
+      "related_crates": [
+        "rbx_binary - Binary format serialization for .rbxm and .rbxmx",
+        "rbx_reflection - Type reflection database for Roblox classes",
+        "rbx_reflection_database - Pre-built reflection data",
+        "rbx_xml - XML format support for Roblox models"
+      ]
+    },
+    {
+      "name": "Hyper",
+      "package": "hyper",
+      "version": "0.14.28",
+      "installed_version": "0.14.28",
+      "type": "framework",
+      "purpose": "HTTP server framework for Rojo's web interface and API",
+      "documentation": "https://hyper.rs/",
+      "github": "https://github.com/hyperium/hyper",
+      "features": [
+        "HTTP/1.1 server support",
+        "TCP connection handling",
+        "Async request processing"
+      ],
+      "usage": [
+        "Serving HTTP API endpoints",
+        "Hosting web UI interface",
+        "WebSocket upgrade handling"
+      ]
+    },
+    {
+      "name": "Tokio",
+      "package": "tokio",
+      "version": "1.36.0",
+      "installed_version": "1.36.0",
+      "type": "runtime",
+      "purpose": "Asynchronous runtime for Rust - enables concurrent task handling",
+      "documentation": "https://tokio.rs/",
+      "github": "https://github.com/tokio-rs/tokio",
+      "features": [
+        "Multi-threaded executor",
+        "Macros for async functions",
+        "Runtime utilities"
+      ],
+      "usage": [
+        "Managing concurrent WebSocket connections",
+        "Handling multiple file watchers",
+        "Async I/O operations"
+      ]
+    }
+  ],
+  "libraries": [
+    {
+      "name": "Serde",
+      "package": "serde",
+      "version": "1.0.197",
+      "installed_version": "1.0.197",
+      "type": "serialization",
+      "purpose": "Serialization/deserialization framework for Rust",
+      "documentation": "https://serde.rs/",
+      "github": "https://github.com/serde-rs/serde",
+      "usage": [
+        "JSON serialization (via serde_json)",
+        "YAML parsing (via serde_yaml)",
+        "TOML configuration parsing (via toml)",
+        "Instance snapshot serialization"
+      ],
+      "related": [
+        "serde_json@1.0.145",
+        "serde_yaml@0.8.26",
+        "toml@0.5.11",
+        "jsonc-parser@0.27.0"
+      ]
+    },
+    {
+      "name": "anyhow",
+      "package": "anyhow",
+      "version": "1.0.80",
+      "installed_version": "1.0.100",
+      "type": "error_handling",
+      "purpose": "Flexible error handling with context support",
+      "documentation": "https://docs.rs/anyhow/",
+      "github": "https://github.com/dtolnay/anyhow",
+      "usage": [
+        "Error context propagation",
+        "Simplified error handling throughout codebase"
+      ]
+    },
+    {
+      "name": "thiserror",
+      "package": "thiserror",
+      "version": "1.0.57",
+      "installed_version": "1.0.57",
+      "type": "error_handling",
+      "purpose": "Derive macros for custom error types",
+      "documentation": "https://docs.rs/thiserror/",
+      "github": "https://github.com/dtolnay/thiserror",
+      "usage": [
+        "Defining structured error types",
+        "Error message formatting"
+      ]
+    },
+    {
+      "name": "Clap",
+      "package": "clap",
+      "version": "3.2.25",
+      "installed_version": "3.2.25",
+      "type": "cli",
+      "purpose": "Command-line argument parser with derive macros",
+      "documentation": "https://docs.rs/clap/",
+      "github": "https://github.com/clap-rs/clap",
+      "usage": [
+        "CLI command parsing for rojo, build, serve, plugin, upload, sourcemap, syncback, doc, fmt-project commands"
+      ]
+    },
+    {
+      "name": "Reqwest",
+      "package": "reqwest",
+      "version": "0.11.24",
+      "installed_version": "0.11.24",
+      "type": "http_client",
+      "purpose": "HTTP client library for making requests",
+      "documentation": "https://docs.rs/reqwest/",
+      "github": "https://github.com/seanmonstar/reqwest",
+      "features": [
+        "blocking client",
+        "JSON serialization",
+        "rustls TLS support"
+      ],
+      "usage": [
+        "Uploading projects to Roblox",
+        "HTTP requests for Roblox Studio plugin communication"
+      ]
+    },
+    {
+      "name": "Rayon",
+      "package": "rayon",
+      "version": "1.9.0",
+      "installed_version": "1.9.0",
+      "type": "concurrency",
+      "purpose": "Data parallelism library using work-stealing scheduler",
+      "documentation": "https://docs.rs/rayon/",
+      "github": "https://github.com/rayon-rs/rayon",
+      "usage": [
+        "Parallel processing of file snapshots",
+        "Multi-threaded project building"
+      ]
+    },
+    {
+      "name": "Crossbeam",
+      "package": "crossbeam-channel",
+      "version": "0.5.12",
+      "installed_version": "0.5.12",
+      "type": "concurrency",
+      "purpose": "Multi-producer, multi-consumer channels for message passing",
+      "documentation": "https://docs.rs/crossbeam-channel/",
+      "github": "https://github.com/crossbeam-rs/crossbeam",
+      "usage": [
+        "File change event communication",
+        "Snapshot update broadcasting"
+      ]
+    },
+    {
+      "name": "Notify",
+      "package": "notify",
+      "version": "4.0.17",
+      "installed_version": "4.0.17",
+      "type": "file_watching",
+      "purpose": "Cross-platform file system event monitoring",
+      "documentation": "https://docs.rs/notify/",
+      "github": "https://github.com/notify-rs/notify",
+      "usage": [
+        "Watching filesystem for project changes",
+        "Live reloading on file modification"
+      ]
+    },
+    {
+      "name": "memofs",
+      "package": "memofs",
+      "version": "0.3.1",
+      "installed_version": "0.3.1",
+      "type": "internal_library",
+      "purpose": "Virtual filesystem abstraction with in-memory backend",
+      "documentation": "https://github.com/rojo-rbx/rojo/tree/master/memofs",
+      "github": "https://github.com/rojo-rbx/rojo/tree/master/memofs",
+      "usage": [
+        "In-memory file system representation",
+        "File watching abstraction",
+        "Test file system mocking"
+      ]
+    },
+    {
+      "name": "Globset",
+      "package": "globset",
+      "version": "0.4.14",
+      "installed_version": "0.4.14",
+      "type": "utilities",
+      "purpose": "Glob pattern matching library",
+      "documentation": "https://docs.rs/globset/",
+      "github": "https://github.com/BurntSushi/ripgrep",
+      "usage": [
+        "File filtering in project.json",
+        "Exclude patterns support"
+      ]
+    },
+    {
+      "name": "UUID",
+      "package": "uuid",
+      "version": "1.7.0",
+      "installed_version": "1.7.0",
+      "type": "utilities",
+      "purpose": "UUID generation and parsing",
+      "documentation": "https://docs.rs/uuid/",
+      "github": "https://github.com/uuid-rs/uuid",
+      "usage": [
+        "Session ID generation",
+        "Instance reference identification"
+      ]
+    },
+    {
+      "name": "Blake3",
+      "package": "blake3",
+      "version": "1.5.0",
+      "installed_version": "1.8.2",
+      "type": "cryptography",
+      "purpose": "Fast cryptographic hash function",
+      "documentation": "https://docs.rs/blake3/",
+      "github": "https://github.com/BLAKE3-team/BLAKE3",
+      "usage": [
+        "Content hashing for change detection",
+        "File integrity verification"
+      ]
+    },
+    {
+      "name": "Bincode",
+      "package": "bincode",
+      "version": "1.3.3",
+      "installed_version": "1.3.3",
+      "type": "serialization",
+      "purpose": "Binary encoding/decoding",
+      "documentation": "https://docs.rs/bincode/",
+      "github": "https://github.com/bincode-org/bincode",
+      "usage": [
+        "Efficient binary serialization of snapshots",
+        "Fast caching of project metadata"
+      ]
+    },
+    {
+      "name": "Hyper-Tungstenite",
+      "package": "hyper-tungstenite",
+      "version": "0.11.0",
+      "installed_version": "0.11.0",
+      "type": "websocket",
+      "purpose": "WebSocket integration with Hyper",
+      "documentation": "https://docs.rs/hyper-tungstenite/",
+      "github": "https://github.com/snapview/tokio-tungstenite",
+      "usage": [
+        "Real-time WebSocket connections for live sync",
+        "Two-way instance tree synchronization"
+      ]
+    },
+    {
+      "name": "Log",
+      "package": "log",
+      "version": "0.4.21",
+      "installed_version": "0.4.21",
+      "type": "logging",
+      "purpose": "Logging facade for Rust",
+      "documentation": "https://docs.rs/log/",
+      "github": "https://github.com/rust-lang/log",
+      "usage": [
+        "Structured logging throughout application",
+        "Error and debug logging"
+      ]
+    },
+    {
+      "name": "env_logger",
+      "package": "env_logger",
+      "version": "0.9.3",
+      "installed_version": "0.9.3",
+      "type": "logging",
+      "purpose": "Logger implementation driven by environment variables",
+      "documentation": "https://docs.rs/env_logger/",
+      "github": "https://github.com/rust-cli/env_logger",
+      "usage": [
+        "Configurable logging levels via RUST_LOG",
+        "Log output formatting"
+      ]
+    },
+    {
+      "name": "TermColor",
+      "package": "termcolor",
+      "version": "1.4.1",
+      "installed_version": "1.4.1",
+      "type": "utilities",
+      "purpose": "Colored terminal output",
+      "documentation": "https://docs.rs/termcolor/",
+      "github": "https://github.com/BurntSushi/termcolor",
+      "usage": [
+        "Color-coded error messages",
+        "Status output formatting"
+      ]
+    },
+    {
+      "name": "Opener",
+      "package": "opener",
+      "version": "0.5.2",
+      "installed_version": "0.5.2",
+      "type": "utilities",
+      "purpose": "Open URLs and files in default applications",
+      "documentation": "https://docs.rs/opener/",
+      "github": "https://github.com/Byron/opener",
+      "usage": [
+        "Opening browser to localhost:34872 on serve",
+        "Opening documentation URLs"
+      ]
+    },
+    {
+      "name": "fs-err",
+      "package": "fs-err",
+      "version": "2.11.0",
+      "installed_version": "2.11.0",
+      "type": "utilities",
+      "purpose": "Filesystem operations with better error messages",
+      "documentation": "https://docs.rs/fs-err/",
+      "github": "https://github.com/yoshuawuyts/fs-err",
+      "usage": [
+        "File reading/writing with context",
+        "Improved filesystem error reporting"
+      ]
+    },
+    {
+      "name": "Futures",
+      "package": "futures",
+      "version": "0.3.30",
+      "installed_version": "0.3.30",
+      "type": "async",
+      "purpose": "Utilities for working with futures and async code",
+      "documentation": "https://docs.rs/futures/",
+      "github": "https://github.com/rust-lang/futures-rs",
+      "usage": [
+        "Future combinators",
+        "Async utilities"
+      ]
+    },
+    {
+      "name": "ritz",
+      "package": "ritz",
+      "version": "0.1.0",
+      "installed_version": "0.1.0",
+      "type": "templating",
+      "purpose": "JSX-like proc macro for HTML templating in Rust",
+      "documentation": "https://docs.rs/ritz/",
+      "github": "https://github.com/rojo-rbx/ritz",
+      "usage": [
+        "Web UI HTML generation",
+        "Server-side rendering of UI components"
+      ]
+    },
+    {
+      "name": "Roblox Install",
+      "package": "roblox_install",
+      "version": "1.0.0",
+      "installed_version": "1.0.0",
+      "type": "roblox_integration",
+      "purpose": "Detect and locate Roblox Studio installation",
+      "documentation": "https://docs.rs/roblox_install/",
+      "github": "https://github.com/rojo-rbx/roblox_install",
+      "usage": [
+        "Finding Roblox Studio path",
+        "Plugin installation detection"
+      ]
+    },
+    {
+      "name": "Strum",
+      "package": "strum",
+      "version": "0.27",
+      "installed_version": "0.27",
+      "type": "utilities",
+      "purpose": "String enumerations derive macro",
+      "documentation": "https://docs.rs/strum/",
+      "github": "https://github.com/Peternator7/strum",
+      "usage": [
+        "Enum to string conversions",
+        "Command-line argument parsing"
+      ]
+    },
+    {
+      "name": "Profiling",
+      "package": "profiling",
+      "version": "1.0.15",
+      "installed_version": "1.0.15",
+      "type": "profiling",
+      "purpose": "Performance profiling integration",
+      "documentation": "https://docs.rs/profiling/",
+      "github": "https://github.com/aclysma/profiling",
+      "features": [
+        "Tracy profiler integration (v63)"
+      ],
+      "usage": [
+        "Optional performance profiling with Tracy via feature flag"
+      ]
+    },
+    {
+      "name": "CSV",
+      "package": "csv",
+      "version": "1.3.0",
+      "installed_version": "1.3.0",
+      "type": "data_format",
+      "purpose": "CSV parsing and serialization",
+      "documentation": "https://docs.rs/csv/",
+      "github": "https://github.com/BurntSushi/rust-csv",
+      "usage": [
+        "Reading CSV model format"
+      ]
+    },
+    {
+      "name": "Humantime",
+      "package": "humantime",
+      "version": "2.1.0",
+      "installed_version": "2.1.0",
+      "type": "utilities",
+      "purpose": "Human-friendly time formatting",
+      "documentation": "https://docs.rs/humantime/",
+      "github": "https://github.com/tailhook/humantime",
+      "usage": [
+        "Readable timing output for build/sync operations"
+      ]
+    },
+    {
+      "name": "Backtrace",
+      "package": "backtrace",
+      "version": "0.3.69",
+      "installed_version": "0.3.76",
+      "type": "debugging",
+      "purpose": "Stack trace capture and formatting",
+      "documentation": "https://docs.rs/backtrace/",
+      "github": "https://github.com/rust-lang/backtrace-rs",
+      "usage": [
+        "Enhanced panic error reporting",
+        "Stack trace on crash"
+      ]
+    },
+    {
+      "name": "num_cpus",
+      "package": "num_cpus",
+      "version": "1.16.0",
+      "installed_version": "1.16.0",
+      "type": "utilities",
+      "purpose": "Detect number of CPU cores",
+      "documentation": "https://docs.rs/num_cpus/",
+      "github": "https://github.com/seanmonstar/num_cpus",
+      "usage": [
+        "Determining parallelism level"
+      ]
+    },
+    {
+      "name": "IndexMap",
+      "package": "indexmap",
+      "version": "2.10.0",
+      "installed_version": "2.10.0",
+      "type": "data_structures",
+      "purpose": "Hash map that preserves insertion order",
+      "documentation": "https://docs.rs/indexmap/",
+      "github": "https://github.com/bluss/indexmap",
+      "usage": [
+        "Maintaining property ordering in instances"
+      ]
+    }
+  ],
+  "build_tools": [
+    {
+      "name": "Cargo",
+      "package": "cargo",
+      "type": "package_manager",
+      "purpose": "Rust package manager and build system",
+      "documentation": "https://doc.rust-lang.org/cargo/",
+      "github": "https://github.com/rust-lang/cargo",
+      "usage": [
+        "Dependency management",
+        "Project compilation",
+        "Binary distribution"
+      ]
+    }
+  ],
+  "build_dependencies": [
+    {
+      "name": "embed-resource",
+      "package": "embed-resource",
+      "version": "1.8.0",
+      "installed_version": "1.8.0",
+      "type": "build_tool",
+      "purpose": "Embed Windows resources in executable",
+      "documentation": "https://docs.rs/embed-resource/",
+      "github": "https://github.com/nabijaczleweli/rust-embed-resource",
+      "usage": [
+        "Windows icon and version embedding"
+      ]
+    },
+    {
+      "name": "Semver",
+      "package": "semver",
+      "version": "1.0.22",
+      "installed_version": "1.0.22",
+      "type": "build_tool",
+      "purpose": "Semantic versioning parsing",
+      "documentation": "https://docs.rs/semver/",
+      "github": "https://github.com/dtolnay/semver",
+      "usage": [
+        "Version compatibility checks during build"
+      ]
+    }
+  ],
+  "testing_frameworks": [
+    {
+      "name": "Insta",
+      "package": "insta",
+      "version": "1.36.1",
+      "installed_version": "1.36.1",
+      "type": "snapshot_testing",
+      "purpose": "Snapshot testing library for Rust",
+      "documentation": "https://insta.rs/",
+      "github": "https://github.com/mitsuhiko/insta",
+      "features": [
+        "YAML snapshot format",
+        "Redaction support"
+      ],
+      "usage": [
+        "Snapshot testing for snapshot computation",
+        "Snapshot testing for patch application"
+      ],
+      "config_file": "insta.yaml",
+      "test_locations": [
+        "src/snapshot/tests/"
+      ]
+    },
+    {
+      "name": "Criterion",
+      "package": "criterion",
+      "version": "0.3.6",
+      "installed_version": "0.3.6",
+      "type": "benchmarking",
+      "purpose": "Statistical benchmarking library",
+      "documentation": "https://bheisler.github.io/criterion.rs/book/",
+      "github": "https://github.com/bheisler/criterion.rs",
+      "usage": [
+        "Benchmark suite for build performance"
+      ],
+      "benchmark_targets": [
+        "benches/build.rs"
+      ]
+    },
+    {
+      "name": "Pretty Assertions",
+      "package": "pretty_assertions",
+      "version": "1.4.0",
+      "installed_version": "1.4.0",
+      "type": "testing_utilities",
+      "purpose": "Improved assertion output with diff display",
+      "documentation": "https://docs.rs/pretty_assertions/",
+      "github": "https://github.com/rust-pretty-assertions/rust-pretty-assertions",
+      "usage": [
+        "Enhanced test failure messages"
+      ]
+    },
+    {
+      "name": "rojo-insta-ext",
+      "package": "rojo-insta-ext",
+      "version": "0.1.0",
+      "installed_version": "0.1.0",
+      "type": "testing_utilities",
+      "purpose": "Custom Insta extensions for Rojo snapshots",
+      "github": "https://github.com/rojo-rbx/rojo/tree/master/crates/rojo-insta-ext",
+      "usage": [
+        "YAML redaction for test snapshots"
+      ]
+    }
+  ],
+  "runtime_dependencies": [
+    {
+      "name": "Rust",
+      "version": "1.88.0",
+      "type": "language_runtime",
+      "purpose": "Language runtime and compiler",
+      "documentation": "https://www.rust-lang.org/",
+      "features": [
+        "Zero-cost abstractions",
+        "Memory safety guarantees",
+        "Trait system"
+      ]
+    }
+  ],
+  "platform_specific_dependencies": [
+    {
+      "platform": "Windows (x86_64-pc-windows-msvc)",
+      "name": "winreg",
+      "package": "winreg",
+      "version": "0.10.1",
+      "installed_version": "0.10.1",
+      "purpose": "Read Windows registry for Roblox installation paths",
+      "usage": [
+        "Detecting Roblox Studio installation on Windows"
+      ]
+    }
+  ],
+  "source_code_structure": {
+    "root_directory": "/Users/adamharris/Documents/repos/roblox/rojo",
+    "entry_points": {
+      "main": "src/main.rs",
+      "library": "src/lib.rs"
+    },
+    "directories": {
+      "src": {
+        "description": "Main source code directory",
+        "subdirectories": [
+          {
+            "path": "src/cli/",
+            "description": "Command-line interface handlers (build, serve, plugin, upload, sourcemap, syncback, doc, fmt-project)"
+          },
+          {
+            "path": "src/snapshot/",
+            "description": "Core snapshot system for instance tree representation and manipulation"
+          },
+          {
+            "path": "src/snapshot_middleware/",
+            "description": "File type handlers (Lua, JSON, RBXM/RBXMX, YAML, TOML, CSV, text, directory)"
+          },
+          {
+            "path": "src/syncback/",
+            "description": "Two-way synchronization from Roblox back to filesystem"
+          },
+          {
+            "path": "src/web/",
+            "description": "HTTP server, API endpoints, and web UI rendering"
+          },
+          {
+            "path": "src/resolution/",
+            "description": "Instance property and reference resolution"
+          }
+        ]
+      },
+      "crates": {
+        "description": "Workspace crates",
+        "subdirectories": [
+          {
+            "path": "crates/memofs/",
+            "description": "Virtual filesystem abstraction layer"
+          },
+          {
+            "path": "crates/rojo-insta-ext/",
+            "description": "Insta testing extensions"
+          }
+        ]
+      },
+      "target": {
+        "description": "Compiled output directory",
+        "generated_from": "src/",
+        "contains": [
+          "release/rojo (main binary)",
+          "debug/* (development builds)"
+        ]
+      }
+    }
+  },
+  "key_features": [
+    "Project file (rojo.json) configuration and parsing",
+    "Real-time file synchronization with Roblox using WebSockets",
+    "Support for multiple source file formats (Lua, JSON, TOML, YAML, CSV, binary models)",
+    "Syncback - two-way sync from Roblox Studio back to filesystem",
+    "Project building to rbxl/rbxm/rbxmx formats",
+    "Asset uploading to Roblox.com",
+    "Plugin system for Roblox Studio integration",
+    "Virtual filesystem abstraction for testing",
+    "CLI tool with multiple commands (serve, build, plugin, upload, etc.)",
+    "Web UI for monitoring instance tree state",
+    "Source map generation for debugging",
+    "Project formatting and normalization"
+  ],
+  "cli_commands": [
+    {
+      "name": "serve",
+      "description": "Start development server for live sync",
+      "source": "src/cli/serve.rs"
+    },
+    {
+      "name": "build",
+      "description": "Build project to Roblox model files",
+      "source": "src/cli/build.rs"
+    },
+    {
+      "name": "plugin",
+      "description": "Manage Roblox Studio plugin",
+      "source": "src/cli/plugin.rs"
+    },
+    {
+      "name": "upload",
+      "description": "Upload project to Roblox.com",
+      "source": "src/cli/upload.rs"
+    },
+    {
+      "name": "sourcemap",
+      "description": "Generate source map for debugging",
+      "source": "src/cli/sourcemap.rs"
+    },
+    {
+      "name": "syncback",
+      "description": "Synchronize changes from Roblox back to filesystem",
+      "source": "src/cli/syncback.rs"
+    },
+    {
+      "name": "doc",
+      "description": "Generate documentation",
+      "source": "src/cli/doc.rs"
+    },
+    {
+      "name": "fmt-project",
+      "description": "Format and normalize project files",
+      "source": "src/cli/fmt_project.rs"
+    },
+    {
+      "name": "init",
+      "description": "Initialize a new Rojo project",
+      "source": "src/cli/init.rs"
+    }
+  ],
+  "supported_file_formats": [
+    {
+      "name": "Lua",
+      "extension": ".lua",
+      "purpose": "Roblox Lua scripts",
+      "handler": "src/snapshot_middleware/lua.rs"
+    },
+    {
+      "name": "JSON",
+      "extension": ".json",
+      "purpose": "JSON models and configurations",
+      "handler": "src/snapshot_middleware/json.rs"
+    },
+    {
+      "name": "TOML",
+      "extension": ".toml",
+      "purpose": "TOML configuration files",
+      "handler": "src/snapshot_middleware/toml.rs"
+    },
+    {
+      "name": "YAML",
+      "extension": ".yaml/.yml",
+      "purpose": "YAML model definitions",
+      "handler": "src/snapshot_middleware/yaml.rs"
+    },
+    {
+      "name": "CSV",
+      "extension": ".csv",
+      "purpose": "CSV data models",
+      "handler": "src/snapshot_middleware/csv.rs"
+    },
+    {
+      "name": "Roblox Binary Model",
+      "extension": ".rbxm",
+      "purpose": "Binary Roblox model format",
+      "handler": "src/snapshot_middleware/rbxm.rs"
+    },
+    {
+      "name": "Roblox XML Model",
+      "extension": ".rbxmx",
+      "purpose": "XML Roblox model format",
+      "handler": "src/snapshot_middleware/rbxmx.rs"
+    },
+    {
+      "name": "Text",
+      "extension": ".txt",
+      "purpose": "Plain text string values",
+      "handler": "src/snapshot_middleware/txt.rs"
+    },
+    {
+      "name": "Metadata",
+      "extension": ".meta.json",
+      "purpose": "Instance metadata and properties",
+      "handler": "src/snapshot_middleware/meta_file.rs"
+    }
+  ],
+  "development_setup": {
+    "prerequisites": [
+      "Rust 1.88 or newer (https://rustup.rs/)",
+      "Cargo (included with Rust)",
+      "Git",
+      "For building on Windows: Visual Studio Build Tools or MSVC"
+    ],
+    "installation": [
+      "git clone https://github.com/rojo-rbx/rojo.git",
+      "cd rojo",
+      "cargo build --release",
+      "cargo install --path ."
+    ],
+    "scripts": {
+      "build": "cargo build --release",
+      "dev": "cargo build",
+      "test": "cargo test",
+      "test_verbose": "cargo test -- --nocapture",
+      "bench": "cargo bench --bench build",
+      "docs": "cargo doc --open",
+      "check": "cargo check"
+    },
+    "workspace_configuration": {
+      "members": [
+        ".",
+        "crates/memofs",
+        "crates/rojo-insta-ext"
+      ]
+    }
+  },
+  "features": [
+    {
+      "name": "dev_live_assets",
+      "description": "Live-reload assets from the web UI during development",
+      "enabled_by_default": false
+    },
+    {
+      "name": "profile-with-tracy",
+      "description": "Enable Tracy profiler integration (v63 protocol)",
+      "enabled_by_default": false,
+      "documentation": "https://github.com/wolfpld/tracy"
+    }
+  ],
+  "configuration_files": [
+    {
+      "file": "Cargo.toml",
+      "location": "/Users/adamharris/Documents/repos/roblox/rojo/",
+      "purpose": "Main workspace configuration and dependency declaration"
+    },
+    {
+      "file": "Cargo.lock",
+      "location": "/Users/adamharris/Documents/repos/roblox/rojo/",
+      "purpose": "Locked dependency versions for reproducible builds"
+    },
+    {
+      "file": ".cargo/config.toml",
+      "location": "/Users/adamharris/Documents/repos/roblox/rojo/",
+      "purpose": "Cargo configuration for platform-specific settings (Windows MSVC runtime)"
+    },
+    {
+      "file": "rokit.toml",
+      "location": "/Users/adamharris/Documents/repos/roblox/rojo/",
+      "purpose": "Rokit toolchain configuration (defines Rojo, Selene, Stylua versions)"
+    },
+    {
+      "file": "build.rs",
+      "location": "/Users/adamharris/Documents/repos/roblox/rojo/",
+      "purpose": "Build script for embedding resources"
+    }
+  ],
+  "data_formats": [
+    {
+      "name": "Rojo Project File",
+      "format": "JSON",
+      "extension": "rojo.json",
+      "purpose": "Project configuration (tree structure, sync rules, output path)",
+      "parser": "src/project.rs"
+    },
+    {
+      "name": "Instance Snapshot",
+      "format": "Binary (Bincode)",
+      "purpose": "Efficient serialization of instance tree state",
+      "parser": "src/snapshot/mod.rs"
+    },
+    {
+      "name": "Change Patch",
+      "format": "Binary/JSON",
+      "purpose": "Differential updates to instance tree",
+      "parser": "src/snapshot/patch.rs"
+    },
+    {
+      "name": "Roblox DOM Instance",
+      "format": "Intermediate representation",
+      "purpose": "In-memory instance representation",
+      "source": "rbx_dom_weak crate"
+    }
+  ],
+  "external_documentation": [
+    {
+      "title": "Rojo Official Documentation",
+      "url": "https://rojo.space/docs"
+    },
+    {
+      "title": "Rojo GitHub Repository",
+      "url": "https://github.com/rojo-rbx/rojo"
+    },
+    {
+      "title": "Rust Programming Language",
+      "url": "https://www.rust-lang.org/"
+    },
+    {
+      "title": "Cargo Documentation",
+      "url": "https://doc.rust-lang.org/cargo/"
+    },
+    {
+      "title": "Roblox API Documentation",
+      "url": "https://roblox.com/docs"
+    },
+    {
+      "title": "rbx-dom Documentation",
+      "url": "https://github.com/rojo-rbx/rbx-dom"
+    }
+  ],
+  "github_repositories": [
+    {
+      "name": "Rojo Main Repository",
+      "url": "https://github.com/rojo-rbx/rojo"
+    },
+    {
+      "name": "rbx-dom (Roblox DOM Library)",
+      "url": "https://github.com/rojo-rbx/rbx-dom"
+    },
+    {
+      "name": "rojo.space (Documentation Site)",
+      "url": "https://github.com/rojo-rbx/rojo.space"
+    },
+    {
+      "name": "Roblox Install Detection",
+      "url": "https://github.com/rojo-rbx/roblox_install"
+    },
+    {
+      "name": "Ritz (JSX-like HTML Templating)",
+      "url": "https://github.com/rojo-rbx/ritz"
+    },
+    {
+      "name": "Run in Roblox",
+      "url": "https://github.com/rojo-rbx/run-in-roblox"
+    }
+  ],
+  "error_handling": {
+    "strategies": [
+      "Context-aware error propagation using anyhow",
+      "Custom error types using thiserror derive macros",
+      "Graceful error handling in file operations",
+      "Panic hook with stack trace on crash",
+      "Error context logging with env_logger"
+    ],
+    "implementation": "Multi-layered error handling with Result<T, E> throughout, enhanced panic messages with backtrace support"
+  },
+  "performance_optimizations": [
+    "Parallel snapshot processing using Rayon",
+    "Efficient binary serialization with Bincode for caching",
+    "File system event batching via crossbeam channels",
+    "Hash-based change detection using Blake3",
+    "Virtual filesystem abstraction to minimize disk I/O",
+    "Multi-threaded Tokio runtime for concurrent connections",
+    "Lazy-loaded type reflection database"
+  ],
+  "security_considerations": [
+    "Plugin installation verification before execution",
+    "Roblox authentication cookie handling (secure by default)",
+    "Rustls for TLS connections (no native OpenSSL dependency)",
+    "No arbitrary code execution from project files",
+    "Input validation for all file paths and URLs",
+    "Sandboxed Lua script execution in Roblox runtime"
+  ],
+  "scalability_features": [
+    "Stateless server design enabling horizontal scaling",
+    "Efficient WebSocket management for multiple connections",
+    "Parallel file processing using Rayon work-stealing scheduler",
+    "Incremental snapshot updates via patches",
+    "Memory-efficient virtual filesystem for large projects",
+    "Streaming model support (rbxm/rbxmx)"
+  ],
+  "dependencies_summary": {
+    "total_crates": 120,
+    "production_dependencies": {
+      "count": 43,
+      "major_categories": {
+        "roblox_ecosystem": 5,
+        "async_runtime": 2,
+        "serialization": 5,
+        "http_web": 4,
+        "concurrency": 2,
+        "utilities": 15,
+        "format_parsers": 8,
+        "other": 2
+      }
+    },
+    "build_dependencies": {
+      "count": 4
+    },
+    "dev_dependencies": {
+      "count": 8
+    },
+    "workspace_crates": {
+      "count": 3,
+      "packages": [
+        "rojo (main)",
+        "memofs",
+        "rojo-insta-ext"
+      ]
+    }
+  },
+  "web_technologies": [
+    {
+      "name": "HTTP Server",
+      "technology": "Hyper 0.14.28",
+      "purpose": "REST API endpoints and web UI hosting",
+      "endpoints": [
+        "/api/rojo/version",
+        "/api/rojo/root-instance",
+        "/api/rojo/instances/*",
+        "/api/rojo/snapshot"
+      ]
+    },
+    {
+      "name": "WebSocket",
+      "technology": "Hyper-Tungstenite 0.11.0",
+      "purpose": "Real-time bidirectional synchronization with Roblox",
+      "features": [
+        "Live instance tree updates",
+        "File change broadcasts",
+        "Two-way sync protocol"
+      ]
+    },
+    {
+      "name": "Web UI",
+      "technology": "Ritz + HTML templates",
+      "purpose": "Server-side rendered web interface",
+      "routes": [
+        "/",
+        "/show-instances",
+        "/logo.png",
+        "/icon.png"
+      ]
+    },
+    {
+      "name": "API Client",
+      "technology": "Reqwest 0.11.24",
+      "purpose": "HTTP requests for Roblox API communication",
+      "uses": [
+        "Project uploads to Roblox.com",
+        "Plugin installation verification"
+      ]
+    }
+  ],
+  "integration_points": [
+    {
+      "name": "Roblox Studio",
+      "method": "Plugin + WebSocket",
+      "purpose": "Live sync and two-way editing",
+      "protocol": "Custom WebSocket protocol"
+    },
+    {
+      "name": "Roblox Installation",
+      "method": "File system + Registry (Windows)",
+      "purpose": "Studio detection and plugin management",
+      "crate": "roblox_install"
+    },
+    {
+      "name": "Roblox.com API",
+      "method": "HTTPS + OAuth",
+      "purpose": "Project uploads and publishing",
+      "library": "reqwest"
+    },
+    {
+      "name": "File System",
+      "method": "Notify + fs-err",
+      "purpose": "Source file change detection",
+      "backends": [
+        "Native file system",
+        "Virtual (in-memory for testing)"
+      ]
+    }
+  ],
+  "testing_strategy": [
+    {
+      "type": "Snapshot Tests",
+      "tool": "Insta",
+      "coverage": "Snapshot computation and application",
+      "location": "src/snapshot/tests/"
+    },
+    {
+      "type": "Unit Tests",
+      "tool": "Rust built-in",
+      "coverage": "Module-level functionality",
+      "inline": true
+    },
+    {
+      "type": "Benchmark Tests",
+      "tool": "Criterion",
+      "coverage": "Build performance",
+      "location": "benches/"
+    },
+    {
+      "type": "Integration Tests",
+      "tool": "Rust test framework",
+      "coverage": "End-to-end workflows"
+    }
+  ],
+  "last_updated": "2025-02-11",
+  "metadata": {
+    "generated_by": "spec-tech-stack-maintainer agent",
+    "format_version": "1.0",
+    "completeness": "comprehensive",
+    "includes": [
+      "Core Rust language and runtime",
+      "Primary dependencies and frameworks",
+      "Roblox ecosystem integration libraries",
+      "Build and testing infrastructure",
+      "Web technologies and APIs",
+      "Source code structure and entry points",
+      "CLI commands and features",
+      "Supported file formats",
+      "Development setup guide",
+      "External documentation links",
+      "GitHub repository references",
+      "Error handling and security considerations",
+      "Performance and scalability features",
+      "Integration points with Roblox ecosystem"
+    ]
+  }
+}

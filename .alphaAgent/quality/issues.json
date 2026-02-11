@@ -1,0 +1,437 @@
+{
+  "version": "1.0",
+  "issues": [
+    {
+      "id": "issue-001",
+      "file_path": "src/project.rs",
+      "issue_type": "documentation",
+      "severity": "medium",
+      "description": "Unclear TODO about properties field: 'Is this legal to set if $path is set?' This suggests a design decision or constraint that should be documented in JSDoc or code comments with proper context.",
+      "line_number": 381,
+      "detected_at": "2026-02-11T00:00:00Z"
+    },
+    {
+      "id": "issue-002",
+      "file_path": "src/rojo_ref.rs",
+      "issue_type": "performance",
+      "severity": "medium",
+      "description": "TODO to implement an internment strategy for RojoRefs. This suggests potential memory usage optimization opportunity where identical RojoRef values could be deduplicated.",
+      "line_number": 8,
+      "detected_at": "2026-02-11T00:00:00Z"
+    },
+    {
+      "id": "issue-003",
+      "file_path": "src/syncback/mod.rs",
+      "issue_type": "documentation",
+      "severity": "medium",
+      "description": "TODO: 'Add a better way to tell if the root of a project is a directory'. Current implementation relies on heuristics that may not be reliable.",
+      "line_number": 62,
+      "detected_at": "2026-02-11T00:00:00Z"
+    },
+    {
+      "id": "issue-004",
+      "file_path": "src/syncback/mod.rs",
+      "issue_type": "documentation",
+      "severity": "medium",
+      "description": "TODO: 'provide replacement snapshots for e.g. two way sync'. Feature gap for bidirectional synchronization support.",
+      "line_number": 280,
+      "detected_at": "2026-02-11T00:00:00Z"
+    },
+    {
+      "id": "issue-005",
+      "file_path": "src/syncback/mod.rs",
+      "issue_type": "documentation",
+      "severity": "medium",
+      "description": "TODO: 'Implement a way to use inheritance for this'. Suggests incomplete implementation of inheritance-based functionality.",
+      "line_number": 316,
+      "detected_at": "2026-02-11T00:00:00Z"
+    },
+    {
+      "id": "issue-006",
+      "file_path": "src/snapshot_middleware/meta_file.rs",
+      "issue_type": "complexity",
+      "severity": "medium",
+      "description": "TODO: 'make this more granular'. Metadata writing is currently all-or-nothing for project nodes, which is not always desirable. Should be made more intelligent about selective metadata application.",
+      "line_number": 95,
+      "detected_at": "2026-02-11T00:00:00Z"
+    },
+    {
+      "id": "issue-007",
+      "file_path": "src/snapshot_middleware/meta_file.rs",
+      "issue_type": "documentation",
+      "severity": "medium",
+      "description": "TODO: 'Add method to allow selectively applying parts of metadata'. Currently lacks granular control for metadata application.",
+      "line_number": 236,
+      "detected_at": "2026-02-11T00:00:00Z"
+    },
+    {
+      "id": "issue-008",
+      "file_path": "src/snapshot_middleware/meta_file.rs",
+      "issue_type": "style",
+      "severity": "medium",
+      "description": "Error handling gap: Comment notes 'TODO: Turn into error type' suggesting proper error handling should be implemented instead of current approach.",
+      "line_number": 403,
+      "detected_at": "2026-02-11T00:00:00Z"
+    },
+    {
+      "id": "issue-009",
+      "file_path": "src/snapshot_middleware/csv.rs",
+      "issue_type": "documentation",
+      "severity": "low",
+      "description": "TODO: 'sort this better'. CSV sorting logic exists but is not optimal.",
+      "line_number": 255,
+      "detected_at": "2026-02-11T00:00:00Z"
+    },
+    {
+      "id": "issue-010",
+      "file_path": "src/snapshot_middleware/json_model.rs",
+      "issue_type": "documentation",
+      "severity": "low",
+      "description": "TODO: 'Is it worth this being an Arc or Rc?' Questions memory management strategy that should be evaluated.",
+      "line_number": 80,
+      "detected_at": "2026-02-11T00:00:00Z"
+    },
+    {
+      "id": "issue-011",
+      "file_path": "src/snapshot_middleware/project.rs",
+      "issue_type": "documentation",
+      "severity": "medium",
+      "description": "TODO: 'Introduce a strict mode where $ignoreUnknownInstances is never'. Feature request to add strict validation mode for projects.",
+      "line_number": 288,
+      "detected_at": "2026-02-11T00:00:00Z"
+    },
+    {
+      "id": "issue-012",
+      "file_path": "src/snapshot_middleware/project.rs",
+      "issue_type": "documentation",
+      "severity": "medium",
+      "description": "TODO: 'handle meta.json files in this branch'. Missing implementation for metadata file handling in certain code paths.",
+      "line_number": 363,
+      "detected_at": "2026-02-11T00:00:00Z"
+    },
+    {
+      "id": "issue-013",
+      "file_path": "src/snapshot_middleware/mod.rs",
+      "issue_type": "documentation",
+      "severity": "medium",
+      "description": "TODO: 'Support user defined init paths'. Feature gap for customizable initialization paths.",
+      "line_number": 77,
+      "detected_at": "2026-02-11T00:00:00Z"
+    },
+    {
+      "id": "issue-014",
+      "file_path": "src/snapshot_middleware/mod.rs",
+      "issue_type": "documentation",
+      "severity": "low",
+      "description": "TODO: 'Is this even necessary anymore?' Questions whether certain code is still needed, suggesting potential dead code.",
+      "line_number": 91,
+      "detected_at": "2026-02-11T00:00:00Z"
+    },
+    {
+      "id": "issue-015",
+      "file_path": "src/snapshot_middleware/dir.rs",
+      "issue_type": "documentation",
+      "severity": "low",
+      "description": "TODO: 'We shouldn''t need to know about Lua existing in this'. Module has unnecessary coupling to Lua.",
+      "line_number": 68,
+      "detected_at": "2026-02-11T00:00:00Z"
+    },
+    {
+      "id": "issue-016",
+      "file_path": "src/snapshot/patch.rs",
+      "issue_type": "documentation",
+      "severity": "medium",
+      "description": "TODO: 'Introduce machinery to detect conflicts, like keeping previous + current values in all fields'. Missing conflict detection mechanism in applied patch sets.",
+      "line_number": 63,
+      "detected_at": "2026-02-11T00:00:00Z"
+    },
+    {
+      "id": "issue-017",
+      "file_path": "src/snapshot/patch.rs",
+      "issue_type": "documentation",
+      "severity": "medium",
+      "description": "TODO: 'Store previous values in order to detect application conflicts'. Applied patch updates lack previous value tracking for conflict detection.",
+      "line_number": 90,
+      "detected_at": "2026-02-11T00:00:00Z"
+    },
+    {
+      "id": "issue-018",
+      "file_path": "src/snapshot/patch_compute.rs",
+      "issue_type": "complexity",
+      "severity": "high",
+      "description": "UGLY HACK: Workaround for rbx-dom pivot migration issue (github.com/rojo-rbx/rojo/issues/628). Hard-coded list of Model-derived classes. Not future-proof - needs upstream fix or better abstraction.",
+      "line_number": 166,
+      "detected_at": "2026-02-11T00:00:00Z"
+    },
+    {
+      "id": "issue-019",
+      "file_path": "src/snapshot/tree.rs",
+      "issue_type": "complexity",
+      "severity": "high",
+      "description": "UGLY HACK: Identical pivot migration workaround as patch_compute.rs. Duplicated hack affecting both snapshot insertion and patch computation. Both locations must be kept in sync.",
+      "line_number": 104,
+      "detected_at": "2026-02-11T00:00:00Z"
+    },
+    {
+      "id": "issue-020",
+      "file_path": "src/change_processor.rs",
+      "issue_type": "documentation",
+      "severity": "medium",
+      "description": "TODO: Contextless TODO comment. No explanation of what needs to be implemented when instance has no instigating source.",
+      "line_number": 212,
+      "detected_at": "2026-02-11T00:00:00Z"
+    },
+    {
+      "id": "issue-021",
+      "file_path": "src/web/api.rs",
+      "issue_type": "documentation",
+      "severity": "low",
+      "description": "TODO: 'Use this for bidirectional sync or requesting fallbacks'. Comment suggests unimplemented feature for API enhancement.",
+      "line_number": 540,
+      "detected_at": "2026-02-11T00:00:00Z"
+    },
+    {
+      "id": "issue-022",
+      "file_path": "src/web/interface.rs",
+      "issue_type": "documentation",
+      "severity": "medium",
+      "description": "TODO: 'Transform from UstrMap<String, Option<_>> to something else, since null will get lost when decoding from JSON in some languages'. Data type choice issue affecting cross-language compatibility.",
+      "line_number": 93,
+      "detected_at": "2026-02-11T00:00:00Z"
+    },
+    {
+      "id": "issue-023",
+      "file_path": "src/web/interface.rs",
+      "issue_type": "documentation",
+      "severity": "low",
+      "description": "TODO: 'Can we cleanly use the socket for all communication?' Architectural question about communication patterns.",
+      "line_number": 202,
+      "detected_at": "2026-02-11T00:00:00Z"
+    },
+    {
+      "id": "issue-024",
+      "file_path": "src/web/interface.rs",
+      "issue_type": "documentation",
+      "severity": "low",
+      "description": "TODO: 'Can we cleanly use the socket for all communication?' Architectural question about communication patterns (duplicate concern).",
+      "line_number": 220,
+      "detected_at": "2026-02-11T00:00:00Z"
+    },
+    {
+      "id": "issue-025",
+      "file_path": "src/snapshot/metadata.rs",
+      "issue_type": "documentation",
+      "severity": "low",
+      "description": "TODO: 'Change this to be a SmallVec for performance in common cases?' Performance optimization suggestion for metadata handling.",
+      "line_number": 51,
+      "detected_at": "2026-02-11T00:00:00Z"
+    },
+    {
+      "id": "issue-026",
+      "file_path": "src/lib.rs",
+      "issue_type": "documentation",
+      "severity": "low",
+      "description": "TODO: 'Work out what we should expose publicly'. Public API design decisions need to be finalized.",
+      "line_number": 29,
+      "detected_at": "2026-02-11T00:00:00Z"
+    },
+    {
+      "id": "issue-027",
+      "file_path": "plugin/src/ServeSession.lua",
+      "issue_type": "documentation",
+      "severity": "medium",
+      "description": "TODO: 'Should we do this in multiple requests so we can more granularly mark failures?' Request serialization approach not optimized for granular error handling.",
+      "line_number": 291,
+      "detected_at": "2026-02-11T00:00:00Z"
+    },
+    {
+      "id": "issue-028",
+      "file_path": "plugin/src/ServeSession.lua",
+      "issue_type": "documentation",
+      "severity": "medium",
+      "description": "TODO: 'Why would this happen?' Unexpected condition in instance map lookup that lacks explanation.",
+      "line_number": 326,
+      "detected_at": "2026-02-11T00:00:00Z"
+    },
+    {
+      "id": "issue-029",
+      "file_path": "plugin/src/ServeSession.lua",
+      "issue_type": "documentation",
+      "severity": "medium",
+      "description": "TODO: 'Generate ID for our instance and add it to inversePatch.added'. Missing implementation for inverse patch tracking.",
+      "line_number": 535,
+      "detected_at": "2026-02-11T00:00:00Z"
+    },
+    {
+      "id": "issue-030",
+      "file_path": "plugin/src/Reconciler/applyPatch.lua",
+      "issue_type": "documentation",
+      "severity": "medium",
+      "description": "TODO: 'When changing between instances that have similar sets of'. Incomplete TODO comment explaining patch application logic.",
+      "line_number": 111,
+      "detected_at": "2026-02-11T00:00:00Z"
+    },
+    {
+      "id": "issue-031",
+      "file_path": "plugin/src/Reconciler/applyPatch.lua",
+      "issue_type": "documentation",
+      "severity": "medium",
+      "description": "TODO: 'If this fails part way through, should we move everything'. Error recovery strategy undefined for partial operations.",
+      "line_number": 162,
+      "detected_at": "2026-02-11T00:00:00Z"
+    },
+    {
+      "id": "issue-032",
+      "file_path": "plugin/src/Reconciler/applyPatch.lua",
+      "issue_type": "documentation",
+      "severity": "medium",
+      "description": "TODO: 'Can this fail? Some kinds of instance may not appreciate'. Unvalidated operation that may fail silently.",
+      "line_number": 174,
+      "detected_at": "2026-02-11T00:00:00Z"
+    },
+    {
+      "id": "issue-033",
+      "file_path": "plugin/src/Reconciler/applyPatch.lua",
+      "issue_type": "documentation",
+      "severity": "medium",
+      "description": "TODO: 'Support changing metadata. This will become necessary when'. Incomplete metadata support in patch application.",
+      "line_number": 194,
+      "detected_at": "2026-02-11T00:00:00Z"
+    },
+    {
+      "id": "issue-034",
+      "file_path": "plugin/src/Reconciler/reify.lua",
+      "issue_type": "documentation",
+      "severity": "medium",
+      "description": "TODO: 'Can this fail? Previous versions of Rojo guarded against this, but'. Potential error condition that may be inadequately handled.",
+      "line_number": 54,
+      "detected_at": "2026-02-11T00:00:00Z"
+    },
+    {
+      "id": "issue-035",
+      "file_path": "plugin/src/Reconciler/diff.spec.lua",
+      "issue_type": "testing",
+      "severity": "medium",
+      "description": "FIXME test: 'should ignore unreadable properties'. Test is disabled (itFIXME), indicating known issue with unreadable property handling.",
+      "line_number": 175,
+      "detected_at": "2026-02-11T00:00:00Z"
+    },
+    {
+      "id": "issue-036",
+      "file_path": "plugin/src/InstanceMap.lua",
+      "issue_type": "documentation",
+      "severity": "low",
+      "description": "TODO: 'Track ancestry to catch when stuff moves?' Incomplete ancestry tracking for move detection.",
+      "line_number": 10,
+      "detected_at": "2026-02-11T00:00:00Z"
+    },
+    {
+      "id": "issue-037",
+      "file_path": "plugin/src/App/Components/PatchVisualizer/DisplayValue.lua",
+      "issue_type": "documentation",
+      "severity": "low",
+      "description": "TODO: 'Maybe add visualizations to other datatypes?' Feature gap in patch visualization UI.",
+      "line_number": 103,
+      "detected_at": "2026-02-11T00:00:00Z"
+    },
+    {
+      "id": "issue-038",
+      "file_path": "plugin/rbx_dom_lua/EncodedValue.lua",
+      "issue_type": "documentation",
+      "severity": "medium",
+      "description": "TODO: 'Figure out a better way to serialize infinity and NaN'. Current serialization approach for special float values is suboptimal.",
+      "line_number": 14,
+      "detected_at": "2026-02-11T00:00:00Z"
+    },
+    {
+      "id": "issue-039",
+      "file_path": "plugin/rbx_dom_lua/EncodedValue.lua",
+      "issue_type": "style",
+      "severity": "medium",
+      "description": "FIXME: 'More robust handling of enums'. Enum encoding/decoding lacks robustness.",
+      "line_number": 231,
+      "detected_at": "2026-02-11T00:00:00Z"
+    },
+    {
+      "id": "issue-040",
+      "file_path": "plugin/rbx_dom_lua/EncodedValue.lua",
+      "issue_type": "testing",
+      "severity": "medium",
+      "description": "TODO: 'Add a test for NaN or Infinity values and envelopes'. Special float values not covered by tests.",
+      "line_number": 348,
+      "detected_at": "2026-02-11T00:00:00Z"
+    },
+    {
+      "id": "issue-041",
+      "file_path": "crates/memofs/src/in_memory_fs.rs",
+      "issue_type": "complexity",
+      "severity": "high",
+      "description": "TODO: Path normalization is incomplete and not robust. Relies on Rojo to prepend CWD. Cannot properly canonicalize paths without full context. Example: '/Users/../../other/file.txt' -> '/other/file.txt' (incorrect). Should implement proper path normalization or add validation/warnings.",
+      "line_number": 235,
+      "detected_at": "2026-02-11T00:00:00Z"
+    },
+    {
+      "id": "issue-042",
+      "file_path": "tests/rojo_test/syncback_util.rs",
+      "issue_type": "documentation",
+      "severity": "medium",
+      "description": "TODO: 'Figure out why and fix it'. Working directory setting breaks tests but reason is unclear. Commented out with 'I'm more interested in writing tests than debugging it right now' - needs investigation.",
+      "line_number": 61,
+      "detected_at": "2026-02-11T00:00:00Z"
+    },
+    {
+      "id": "issue-043",
+      "file_path": "src/change_processor.rs",
+      "issue_type": "style",
+      "severity": "high",
+      "description": "Unwrap on critical operations: Multiple unwrap() calls that could panic (file operations, path operations, lock acquisition). Lines 203, 267, 272, 273, 276 - should use proper error handling.",
+      "line_number": 203,
+      "detected_at": "2026-02-11T00:00:00Z"
+    },
+    {
+      "id": "issue-044",
+      "file_path": "src/snapshot/patch_apply.rs",
+      "issue_type": "style",
+      "severity": "high",
+      "description": "Multiple unwrap() calls on tree instance lookups. Should handle missing instances gracefully instead of panicking.",
+      "line_number": null,
+      "detected_at": "2026-02-11T00:00:00Z"
+    },
+    {
+      "id": "issue-045",
+      "file_path": "src/project.rs",
+      "issue_type": "complexity",
+      "severity": "high",
+      "description": "Large file with 596 lines. Should be refactored into smaller, more focused modules. Consider splitting into separate files for different project concepts (config, validation, resolution).",
+      "line_number": null,
+      "detected_at": "2026-02-11T00:00:00Z"
+    },
+    {
+      "id": "issue-046",
+      "file_path": "src/resolution.rs",
+      "issue_type": "complexity",
+      "severity": "medium",
+      "description": "Large file with 495 lines. Should be refactored into smaller modules focused on different resolution concerns.",
+      "line_number": null,
+      "detected_at": "2026-02-11T00:00:00Z"
+    },
+    {
+      "id": "issue-047",
+      "file_path": "src/change_processor.rs",
+      "issue_type": "complexity",
+      "severity": "medium",
+      "description": "Large file with 371 lines. Consider breaking into separate modules for different change handling concerns.",
+      "line_number": null,
+      "detected_at": "2026-02-11T00:00:00Z"
+    },
+    {
+      "id": "issue-048",
+      "file_path": "tests/rojo_test",
+      "issue_type": "testing",
+      "severity": "medium",
+      "description": "Test coverage appears limited. Critical paths like full server lifecycle, VFS interactions, and complex patch scenarios should have more comprehensive tests.",
+      "line_number": null,
+      "detected_at": "2026-02-11T00:00:00Z"
+    }
+  ]
+}

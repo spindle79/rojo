@@ -1,0 +1,225 @@
+{
+  "version": "1.0",
+  "lessons": [
+    {
+      "id": "lesson-001",
+      "title": "NeedsPivotMigration property must be explicitly set to false on Model descendants",
+      "content": "Roblox instances that inherit from Model (Model, Actor, Tool, HopperBin, Flag, WorldModel, Workspace, Status) require the NeedsPivotMigration property to be explicitly set to false for pivots to build correctly. This is a workaround for upstream issues in rbx-dom (github.com/rojo-rbx/rojo/issues/628 and github.com/rojo-rbx/rbx-dom/issues/385). The hack is implemented in src/snapshot/tree.rs insert_instance() and must be kept in sync with src/snapshot/patch_compute.rs. This is marked as an UGLY HACK in the code - if you modify one, you MUST modify the other.",
+      "category": "insight",
+      "severity": "critical",
+      "tags": ["roblox-api", "model", "pivot", "workaround"],
+      "source": "code_comment",
+      "created_at": "2026-02-11T12:00:00Z",
+      "is_addressed": false
+    },
+    {
+      "id": "lesson-002",
+      "title": "Git submodules must be initialized before building the Studio plugin",
+      "content": "When building the Rojo Studio plugin, if you get an error like 'Error: failed to open file `D:\\code\\rojo\\plugin\\modules\\roact\\src`', you need to initialize git submodules. Run `git submodule update --init --recursive` before building. This is a local development gotcha documented in CONTRIBUTING.md.",
+      "category": "insight",
+      "severity": "warning",
+      "tags": ["setup", "plugin", "build"],
+      "source": "README",
+      "created_at": "2026-02-11T12:00:00Z",
+      "is_addressed": false
+    },
+    {
+      "id": "lesson-003",
+      "title": "Patch sets don't have conflict detection - order matters",
+      "content": "PatchSet structures are not persisted and have no conflict detection machinery. There's no guarantee that another patch wasn't applied before the current one, which could cause conflicts. The AppliedPatchSet TODO (in src/snapshot/patch.rs) indicates future work is needed to keep previous and current values for conflict detection. Be careful when applying patches in sequence.",
+      "category": "insight",
+      "severity": "warning",
+      "tags": ["patching", "synchronization", "future-work"],
+      "source": "code_comment",
+      "created_at": "2026-02-11T12:00:00Z",
+      "is_addressed": false
+    },
+    {
+      "id": "lesson-004",
+      "title": "Snapshot ID to instance ID mapping is critical for Ref properties",
+      "content": "When computing patches, snapshot IDs must be rewritten to instance IDs for all Ref properties. This happens in rewrite_refs_in_updates(), rewrite_refs_in_additions(), and rewrite_refs_in_snapshot() in src/snapshot/patch_compute.rs. If this mapping is not maintained correctly, references between instances will break.",
+      "category": "pattern",
+      "severity": "warning",
+      "tags": ["references", "patching", "instance-management"],
+      "source": "code_analysis",
+      "created_at": "2026-02-11T12:00:00Z",
+      "is_addressed": false
+    },
+    {
+      "id": "lesson-005",
+      "title": "Init files (.gitkeep) preserve empty directories during sync",
+      "content": "The .gitkeep file is used as a marker to preserve empty directories during synchronization. This is defined in src/snapshot_middleware/dir.rs as EMPTY_DIR_KEEP_NAME. Without it, empty directories would be pruned during the sync process.",
+      "category": "pattern",
+      "severity": "info",
+      "tags": ["filesystem", "synchronization"],
+      "source": "code_analysis",
+      "created_at": "2026-02-11T12:00:00Z",
+      "is_addressed": false
+    },
+    {
+      "id": "lesson-006",
+      "title": "ChangeProcessor is the sole owner of VFS and RojoTree mutations",
+      "content": "The ChangeProcessor struct (src/change_processor.rs) must be the only writer to the RojoTree and Vfs objects passed to it. It owns the connection between Rojo's VFS and its DOM by holding onto a message processing thread. Consumers like ServeSession communicate via channels. If you try to mutate these objects outside ChangeProcessor, you'll get unpredictable behavior.",
+      "category": "pattern",
+      "severity": "critical",
+      "tags": ["threading", "concurrency", "ownership"],
+      "source": "code_comment",
+      "created_at": "2026-02-11T12:00:00Z",
+      "is_addressed": false
+    },
+    {
+      "id": "lesson-007",
+      "title": "Always use variant_eq for float comparisons instead of ==",
+      "content": "The variant_eq function in src/variant_eq.rs correctly handles float comparisons by treating NaN values as equal (approx_eq!(NaN, NaN) == true). Using the standard == operator will fail for float types. This is critical for Color3, Vector3, CFrame, and other floating-point variant types.",
+      "category": "best_practice",
+      "severity": "warning",
+      "tags": ["float", "comparison", "roblox-types"],
+      "source": "code_analysis",
+      "created_at": "2026-02-11T12:00:00Z",
+      "is_addressed": false
+    },
+    {
+      "id": "lesson-008",
+      "title": "Adjacent metadata (.meta.json) provides flexible property extension",
+      "content": "Sibling .meta.json files (e.g., hello.meta.json next to hello.lua) allow extending instance metadata without modifying the main file. The AdjacentMetadata struct (src/snapshot_middleware/meta_file.rs) reads both .meta.json and .meta.jsonc formats and can set properties and attributes. This is particularly useful for adding metadata that doesn't belong in the main file.",
+      "category": "pattern",
+      "severity": "info",
+      "tags": ["metadata", "configuration"],
+      "source": "code_analysis",
+      "created_at": "2026-02-11T12:00:00Z",
+      "is_addressed": false
+    },
+    {
+      "id": "lesson-009",
+      "title": "WebSocket replaces long polling for real-time synchronization",
+      "content": "Rojo uses WebSocket (via hyper-tungstenite) instead of long polling for real-time message streaming to clients. This is implemented in src/web/api.rs in the handle_api_socket() function. This provides lower latency and more efficient bidirectional communication compared to the previous polling approach (commit 87f58e0).",
+      "category": "pattern",
+      "severity": "info",
+      "tags": ["networking", "websocket", "real-time"],
+      "source": "code_analysis",
+      "created_at": "2026-02-11T12:00:00Z",
+      "is_addressed": false
+    },
+    {
+      "id": "lesson-010",
+      "title": "Syncback converts Roblox instances back to Rojo project files",
+      "content": "The syncback module (src/syncback/) implements bidirectional sync - converting Roblox instances in Studio back to Rojo project files. This is a large and complex feature (commit 9b5a071) that handles reference properties, property filtering, and environment variables like ROJO_SYNCBACK_DEBUG for controlling model format (Rbxm, Rbxmx, or JsonModel). Be careful when modifying this as it touches many parts of the system.",
+      "category": "pattern",
+      "severity": "info",
+      "tags": ["syncback", "bidirectional-sync", "feature"],
+      "source": "code_analysis",
+      "created_at": "2026-02-11T12:00:00Z",
+      "is_addressed": false
+    },
+    {
+      "id": "lesson-011",
+      "title": "VFS Path normalization is required for cross-platform tree synchronization",
+      "content": "Path normalization in the VFS (memofs crate) is critical for consistent behavior across Windows, macOS, and Linux. The normalization feature (commit 2a1102f) ensures that path operations are consistent regardless of platform-specific path separators and case sensitivity. Always use vfs.canonicalize() and the normalized paths from the VFS.",
+      "category": "pattern",
+      "severity": "warning",
+      "tags": ["filesystem", "cross-platform", "paths"],
+      "source": "code_analysis",
+      "created_at": "2026-02-11T12:00:00Z",
+      "is_addressed": false
+    },
+    {
+      "id": "lesson-012",
+      "title": "Pruning unknown root children prevents hash mismatches",
+      "content": "During syncback, unknown root children from the new tree are stripped out (src/syncback/mod.rs syncback_loop function). This is necessary so that hashing the roots of each tree won't always result in different hashes, since Roblox serializes many Services that developers don't care about. This pruning must be done before comparing tree hashes.",
+      "category": "pattern",
+      "severity": "warning",
+      "tags": ["syncback", "hashing", "optimization"],
+      "source": "code_analysis",
+      "created_at": "2026-02-11T12:00:00Z",
+      "is_addressed": false
+    },
+    {
+      "id": "lesson-013",
+      "title": "Snapshot middleware plugins use a chain-of-responsibility pattern",
+      "content": "Snapshot middleware (csv, dir, json, lua, rbxm, etc. in src/snapshot_middleware/) follows a chain-of-responsibility pattern where each middleware is responsible for handling specific file types. The get_dir_middleware and snapshot_from_path functions determine which middleware to use based on file extensions and attributes. Always check the middleware chain when adding new file type support.",
+      "category": "pattern",
+      "severity": "info",
+      "tags": ["middleware", "plugin-architecture", "file-handling"],
+      "source": "code_analysis",
+      "created_at": "2026-02-11T12:00:00Z",
+      "is_addressed": false
+    },
+    {
+      "id": "lesson-014",
+      "title": "Property filtering can remove properties before syncback compares trees",
+      "content": "The syncback process (src/syncback/mod.rs) pre-filters properties on both old and new DOMs using get_property_filter() before comparing them. Properties blocked via the project file are removed before hashing and comparison. This prevents unwanted properties from triggering false change detection.",
+      "category": "pattern",
+      "severity": "info",
+      "tags": ["syncback", "property-filtering", "configuration"],
+      "source": "code_analysis",
+      "created_at": "2026-02-11T12:00:00Z",
+      "is_addressed": false
+    },
+    {
+      "id": "lesson-015",
+      "title": "Use UnresolvedValue for ambiguous property types in JSON",
+      "content": "The UnresolvedValue enum (src/resolution.rs) allows JSON configurations to specify ambiguous values like strings or numbers that need to be resolved to specific variant types using the reflection database. For example, a string 'red' can be resolved to an Enum variant for color properties. This provides user-friendly APIs in project and model files.",
+      "category": "pattern",
+      "severity": "info",
+      "tags": ["resolution", "type-system", "json-config"],
+      "source": "code_analysis",
+      "created_at": "2026-02-11T12:00:00Z",
+      "is_addressed": false
+    },
+    {
+      "id": "lesson-016",
+      "title": "Both .meta.json and .meta.jsonc formats are supported",
+      "content": "Metadata files can use either .meta.json or .meta.jsonc (JSON with comments) format. The code checks both extensions in AdjacentMetadata::read_and_apply_all(). This provides flexibility for developers who prefer to add comments to their metadata files.",
+      "category": "pattern",
+      "severity": "info",
+      "tags": ["metadata", "json", "configuration"],
+      "source": "code_analysis",
+      "created_at": "2026-02-11T12:00:00Z",
+      "is_addressed": false
+    },
+    {
+      "id": "lesson-017",
+      "title": "Minimum Rust version is 1.88 and must support all dependencies",
+      "content": "Rojo's MSRV (Minimum Supported Rust Version) is 1.88, specified in Cargo.toml. This is determined by the latest versions of Rojo's dependencies. When updating dependencies or the codebase, verify that all code compiles with Rust 1.88 or newer.",
+      "category": "best_practice",
+      "severity": "warning",
+      "tags": ["build", "dependencies", "rust"],
+      "source": "Cargo.toml",
+      "created_at": "2026-02-11T12:00:00Z",
+      "is_addressed": false
+    },
+    {
+      "id": "lesson-018",
+      "title": "Thread naming is important for debugging concurrent behavior",
+      "content": "Named threads (e.g., 'ChangeProcessor thread' in src/change_processor.rs) help when debugging concurrent issues. Always use descriptive thread names when spawning threads with jod_thread::Builder. This makes it easier to understand what's happening when examining logs or stack traces.",
+      "category": "best_practice",
+      "severity": "info",
+      "tags": ["threading", "debugging", "logging"],
+      "source": "code_analysis",
+      "created_at": "2026-02-11T12:00:00Z",
+      "is_addressed": false
+    },
+    {
+      "id": "lesson-019",
+      "title": "HTTP API must use POST for ref-patch to support serialization",
+      "content": "The /api/ref-patch endpoint (src/web/api.rs) must be POST instead of GET to support proper serialization of complex patch data. The endpoint handles RefPatchRequest and RefPatchResponse types. This design decision separates read operations (GET) from write/modification operations (POST).",
+      "category": "pattern",
+      "severity": "info",
+      "tags": ["http-api", "rest", "design"],
+      "source": "code_analysis",
+      "created_at": "2026-02-11T12:00:00Z",
+      "is_addressed": false
+    },
+    {
+      "id": "lesson-020",
+      "title": "Init files are filtered out to prevent double-wrapping",
+      "content": "Init files (init.lua, init.luau, init.server.lua, etc.) are explicitly filtered out in snapshot_from_vfs() (src/snapshot_middleware/mod.rs) to prevent creating duplicate instances. When a directory has an init file, the middleware uses the init file's path instead of the directory path to generate the snapshot.",
+      "category": "pattern",
+      "severity": "warning",
+      "tags": ["lua", "directory-handling", "naming"],
+      "source": "code_analysis",
+      "created_at": "2026-02-11T12:00:00Z",
+      "is_addressed": false
+    }
+  ]
+}

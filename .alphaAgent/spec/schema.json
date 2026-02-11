@@ -1,0 +1,344 @@
+{
+  "version": "1.0",
+  "database_type": "none",
+  "description": "Rojo is a Rust CLI tool for Roblox development that uses in-memory data structures rather than a traditional database.",
+  "tables": [],
+  "migrations": [],
+  "data_structures": [
+    {
+      "name": "ServeSession",
+      "location": "src/serve_session.rs",
+      "description": "Main session state container for a Rojo serve session. Contains all state needed to manage live-sync with Roblox.",
+      "fields": [
+        {
+          "name": "change_processor",
+          "type": "ChangeProcessor",
+          "description": "Listens to VFS changes, applies them, updates the instance tree, and routes messages through the message queue"
+        },
+        {
+          "name": "start_time",
+          "type": "Instant",
+          "description": "When the serve session was started (used for diagnostics)"
+        },
+        {
+          "name": "root_project",
+          "type": "Project",
+          "description": "Root project configuration loaded from .project.json"
+        },
+        {
+          "name": "session_id",
+          "type": "SessionId",
+          "description": "Randomly generated UUID to ensure client atomicity"
+        },
+        {
+          "name": "tree",
+          "type": "Arc<Mutex<RojoTree>>",
+          "description": "Thread-safe instance tree that represents the Roblox object hierarchy"
+        },
+        {
+          "name": "vfs",
+          "type": "Arc<Vfs>",
+          "description": "In-memory filesystem containing files relevant to this session"
+        },
+        {
+          "name": "message_queue",
+          "type": "Arc<MessageQueue<AppliedPatchSet>>",
+          "description": "Queue of changes applied to tree for client synchronization"
+        },
+        {
+          "name": "tree_mutation_sender",
+          "type": "Sender<PatchSet>",
+          "description": "Channel for sending mutation requests to ChangeProcessor"
+        }
+      ]
+    },
+    {
+      "name": "RojoTree",
+      "location": "src/snapshot/tree.rs",
+      "description": "Extended variant of rbx_dom_weak's WeakDom that tracks Rojo-specific metadata per instance. Optimized for incremental updates.",
+      "fields": [
+        {
+          "name": "inner",
+          "type": "WeakDom",
+          "description": "Underlying DOM containing instances without Rojo metadata"
+        },
+        {
+          "name": "metadata_map",
+          "type": "HashMap<Ref, InstanceMetadata>",
+          "description": "Maps instance Refs to their Rojo-specific metadata"
+        },
+        {
+          "name": "path_to_ids",
+          "type": "MultiMap<PathBuf, Ref>",
+          "description": "Maps source paths to root instances constructed from those paths (supports path aliasing)"
+        },
+        {
+          "name": "specified_id_to_refs",
+          "type": "MultiMap<RojoRef, Ref>",
+          "description": "Maps user-specified RojoRefs to underlying instance Refs"
+        }
+      ]
+    },
+    {
+      "name": "InstanceSnapshot",
+      "location": "src/snapshot/instance_snapshot.rs",
+      "description": "Lightweight description of what an instance should look like. Used for representing the desired state of Roblox instances.",
+      "fields": [
+        {
+          "name": "snapshot_id",
+          "type": "Ref",
+          "description": "Temporary ID used for Ref properties"
+        },
+        {
+          "name": "metadata",
+          "type": "InstanceMetadata",
+          "description": "Rojo-specific metadata for the instance"
+        },
+        {
+          "name": "name",
+          "type": "Cow<'static, str>",
+          "description": "Instance name property"
+        },
+        {
+          "name": "class_name",
+          "type": "Ustr",
+          "description": "Instance class name (e.g., Folder, Script, LocalScript)"
+        },
+        {
+          "name": "properties",
+          "type": "UstrMap<Variant>",
+          "description": "Weakly-typed instance properties"
+        },
+        {
+          "name": "children",
+          "type": "Vec<InstanceSnapshot>",
+          "description": "Child instances (order is relevant for Roblox)"
+        }
+      ]
+    },
+    {
+      "name": "InstanceMetadata",
+      "location": "src/snapshot/metadata.rs",
+      "description": "Rojo-specific metadata associated with an instance or snapshot.",
+      "fields": [
+        {
+          "name": "ignore_unknown_instances",
+          "type": "bool",
+          "description": "Whether instances not in source should be ignored during live-sync"
+        },
+        {
+          "name": "instigating_source",
+          "type": "Option<InstigatingSource>",
+          "description": "What source caused this instance to be created (Path or ProjectNode)"
+        },
+        {
+          "name": "relevant_paths",
+          "type": "Vec<PathBuf>",
+          "description": "File paths that, when changed, could regenerate this snapshot"
+        },
+        {
+          "name": "context",
+          "type": "InstanceContext",
+          "description": "Persistent context that carries between snapshot invocations"
+        },
+        {
+          "name": "specified_id",
+          "type": "Option<RojoRef>",
+          "description": "User-specified ID for Ref properties pointing to this instance"
+        },
+        {
+          "name": "middleware",
+          "type": "Option<Middleware>",
+          "description": "Middleware used to create this instance (Lua, Json, Yaml, etc.)"
+        },
+        {
+          "name": "schema",
+          "type": "Option<String>",
+          "description": "JSON schema if provided, applicable to JSON middleware only"
+        }
+      ]
+    },
+    {
+      "name": "InstanceContext",
+      "location": "src/snapshot/metadata.rs",
+      "description": "Persistent context information that carries between snapshot invocations.",
+      "fields": [
+        {
+          "name": "path_ignore_rules",
+          "type": "Arc<Vec<PathIgnoreRule>>",
+          "description": "Glob patterns for files to ignore"
+        },
+        {
+          "name": "emit_legacy_scripts",
+          "type": "bool",
+          "description": "Whether to emit legacy-style scripts"
+        },
+        {
+          "name": "sync_rules",
+          "type": "Vec<SyncRule>",
+          "description": "User-specified rules for transforming files into instances"
+        }
+      ]
+    },
+    {
+      "name": "Project",
+      "location": "src/project.rs",
+      "description": "Configuration for a Rojo-managed project, loaded from .project.json files.",
+      "fields": [
+        {
+          "name": "name",
+          "type": "Option<String>",
+          "description": "Name of the top-level instance"
+        },
+        {
+          "name": "tree",
+          "type": "ProjectNode",
+          "description": "Tree of instances described by the project"
+        },
+        {
+          "name": "serve_port",
+          "type": "Option<u16>",
+          "description": "Default port for rojo serve"
+        },
+        {
+          "name": "serve_place_ids",
+          "type": "Option<HashSet<u64>>",
+          "description": "Compatible place IDs for live sync"
+        },
+        {
+          "name": "blocked_place_ids",
+          "type": "Option<HashSet<u64>>",
+          "description": "Place IDs to block from live sync"
+        },
+        {
+          "name": "place_id",
+          "type": "Option<u64>",
+          "description": "Current place's ID when connecting from Studio"
+        },
+        {
+          "name": "game_id",
+          "type": "Option<u64>",
+          "description": "Current place's game ID"
+        }
+      ]
+    },
+    {
+      "name": "PatchSet",
+      "location": "src/snapshot/patch.rs",
+      "description": "Set of patches describing mutations to apply to the instance tree.",
+      "fields": [
+        {
+          "name": "removed_instances",
+          "type": "Vec<Ref>",
+          "description": "Instance Refs to remove"
+        },
+        {
+          "name": "added_instances",
+          "type": "Vec<PatchAdd>",
+          "description": "New instances to add"
+        },
+        {
+          "name": "updated_instances",
+          "type": "Vec<PatchUpdate>",
+          "description": "Instances with property changes"
+        }
+      ]
+    },
+    {
+      "name": "PatchAdd",
+      "location": "src/snapshot/patch.rs",
+      "description": "Patch for adding a new instance to the tree.",
+      "fields": [
+        {
+          "name": "parent_id",
+          "type": "Ref",
+          "description": "Ref of the parent instance"
+        },
+        {
+          "name": "instance",
+          "type": "InstanceSnapshot",
+          "description": "The snapshot describing the new instance"
+        }
+      ]
+    },
+    {
+      "name": "PatchUpdate",
+      "location": "src/snapshot/patch.rs",
+      "description": "Patch for updating properties of an existing instance.",
+      "fields": [
+        {
+          "name": "id",
+          "type": "Ref",
+          "description": "Instance Ref being updated"
+        },
+        {
+          "name": "changed_name",
+          "type": "Option<String>",
+          "description": "New instance name if changed"
+        },
+        {
+          "name": "changed_class_name",
+          "type": "Option<Ustr>",
+          "description": "New class name if changed"
+        },
+        {
+          "name": "changed_properties",
+          "type": "UstrMap<Option<Variant>>",
+          "description": "Changed properties (None value = removed)"
+        },
+        {
+          "name": "changed_metadata",
+          "type": "Option<InstanceMetadata>",
+          "description": "Changed Rojo metadata if any"
+        }
+      ]
+    },
+    {
+      "name": "AppliedPatchSet",
+      "location": "src/snapshot/patch.rs",
+      "description": "Descriptive patches suitable for sending over network to clients.",
+      "fields": [
+        {
+          "name": "removed",
+          "type": "Vec<Ref>",
+          "description": "Refs of removed instances"
+        },
+        {
+          "name": "added",
+          "type": "Vec<Ref>",
+          "description": "Refs of added instances"
+        },
+        {
+          "name": "updated",
+          "type": "Vec<AppliedPatchUpdate>",
+          "description": "Updated instance details"
+        }
+      ]
+    },
+    {
+      "name": "ChangeProcessor",
+      "location": "src/change_processor.rs",
+      "description": "Processes changes from the VFS, applies patches to tree, and routes messages to clients.",
+      "storage": "Runs in a separate thread with Arc-wrapped shared state"
+    },
+    {
+      "name": "MessageQueue",
+      "location": "src/message_queue.rs",
+      "description": "Thread-safe queue of changes for client subscription.",
+      "storage": "Generic queue supporting multiple concurrent subscribers"
+    }
+  ],
+  "notes": {
+    "database_type": "Rojo uses in-memory data structures rather than a traditional SQL or NoSQL database",
+    "storage_mechanism": "All data is kept in memory during a serve session. Data structures are kept in sync via channels and Arc<Mutex> for thread safety.",
+    "persistence": "No database persistence. Projects are defined in .project.json files and snapshots are computed from the VFS at runtime.",
+    "key_concepts": {
+      "VFS": "Virtual filesystem (in-memory) containing all files for the session",
+      "Instance Tree": "Hierarchical representation of Roblox instances",
+      "Snapshots": "Lightweight descriptions of desired instance states",
+      "Patches": "Incremental mutations to apply to instances",
+      "Metadata": "Rojo-specific information about instances (source paths, sync rules, etc.)",
+      "Middleware": "Transformers that convert files (Lua, Json, Yaml) into instances"
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "version": "1.0",
+  "variables": [
+    {
+      "name": "RUST_BACKTRACE",
+      "description": "Controls whether Rojo displays a full backtrace when it crashes. Set to 1 to enable backtrace output, any other value disables it.",
+      "required": false,
+      "default": "0",
+      "example": "1",
+      "sensitive": false,
+      "category": "debug"
+    },
+    {
+      "name": "ROJO_SYNCBACK_DEBUG",
+      "description": "Debug environment variable to override the format used for model files during syncback. By default, syncback uses Rbxm format. Set to 1 to use Rbxmx format, or 2 to use JsonModel format. This only affects new files, not existing Rbxm middleware.",
+      "required": false,
+      "default": null,
+      "example": "1",
+      "sensitive": false,
+      "category": "debug"
+    },
+    {
+      "name": "RUST_LOG",
+      "description": "Controls logging verbosity. Set to specify which modules to log at what level (e.g., 'info', 'debug', 'librojo=trace'). Can be overridden using --verbose/-v flag on the command line.",
+      "required": false,
+      "default": "info",
+      "example": "info,librojo=debug",
+      "sensitive": false,
+      "category": "config"
+    }
+  ]
+}
