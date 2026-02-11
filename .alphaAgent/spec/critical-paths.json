@@ -1,0 +1,235 @@
+{
+  "version": "1.0",
+  "paths": [
+    {
+      "id": "project-initialization",
+      "name": "Project Setup and Initialization",
+      "description": "User initializes a new Rojo project from scratch by running 'rojo init' to scaffold a project template (place, plugin, or model)",
+      "priority": "P0",
+      "coverage": "60%",
+      "files": [
+        "src/cli/init.rs",
+        "src/cli/mod.rs",
+        "src/main.rs",
+        "src/project.rs"
+      ],
+      "proposed_tests": [
+        "Test rojo init creates valid project structure",
+        "Test rojo init with --kind place|plugin|model",
+        "Test rojo init --skip-git prevents git initialization",
+        "Test project file is valid JSON schema",
+        "Test init with custom project path"
+      ],
+      "test_type": "integration",
+      "estimated_sessions": 1
+    },
+    {
+      "id": "file-sync-serve",
+      "name": "Live File Synchronization with Serve",
+      "description": "User runs 'rojo serve' to start a live sync session, watches filesystem changes, processes them through the VFS, computes patches, and streams updates to Roblox Studio via WebSocket",
+      "priority": "P0",
+      "coverage": "55%",
+      "files": [
+        "src/cli/serve.rs",
+        "src/serve_session.rs",
+        "src/change_processor.rs",
+        "src/snapshot/patch_compute.rs",
+        "src/snapshot/patch_apply.rs",
+        "src/web/api.rs",
+        "src/web/interface.rs",
+        "src/snapshot_middleware/mod.rs"
+      ],
+      "proposed_tests": [
+        "Test serve session initialization with project",
+        "Test VFS file change detection",
+        "Test patch computation from file changes",
+        "Test patch streaming via WebSocket",
+        "Test multiple file changes in sequence",
+        "Test serve address binding and port configuration",
+        "Test session ID generation and validation",
+        "E2E test: file change -> compute -> stream -> plugin receives update"
+      ],
+      "test_type": "integration",
+      "estimated_sessions": 3
+    },
+    {
+      "id": "snapshot-tree-building",
+      "name": "Snapshot and Tree Construction",
+      "description": "Core process of converting filesystem artifacts (Lua scripts, JSON models, directories, rbxm/rbxmx files) into an instance snapshot tree using middleware handlers and sync rules",
+      "priority": "P0",
+      "coverage": "70%",
+      "files": [
+        "src/snapshot/mod.rs",
+        "src/snapshot/instance_snapshot.rs",
+        "src/snapshot/tree.rs",
+        "src/snapshot_middleware/mod.rs",
+        "src/snapshot_middleware/lua.rs",
+        "src/snapshot_middleware/json.rs",
+        "src/snapshot_middleware/json_model.rs",
+        "src/snapshot_middleware/dir.rs",
+        "src/snapshot_middleware/rbxm.rs",
+        "src/snapshot_middleware/rbxmx.rs",
+        "src/snapshot_middleware/csv.rs"
+      ],
+      "proposed_tests": [
+        "Test Lua script to instance conversion",
+        "Test JSON model parsing and snapshot generation",
+        "Test directory traversal and children collection",
+        "Test rbxm/rbxmx binary model loading",
+        "Test sync rules application",
+        "Test metadata parsing from meta files",
+        "Test instance property assignment from snapshots",
+        "Test nested project resolution"
+      ],
+      "test_type": "unit",
+      "estimated_sessions": 2
+    },
+    {
+      "id": "build-output-generation",
+      "name": "Build and Output Generation",
+      "description": "User runs 'rojo build --output <file.rbx*>' to compile the project tree into a binary or text Roblox model file (.rbxm, .rbxl, .rbxmx, or .rbxlx)",
+      "priority": "P0",
+      "coverage": "65%",
+      "files": [
+        "src/cli/build.rs",
+        "src/serve_session.rs",
+        "src/snapshot/mod.rs",
+        "src/web_api.rs"
+      ],
+      "proposed_tests": [
+        "Test build with --output flag creates file",
+        "Test build detects output file type (.rbxm, .rbxl, .rbxmx, .rbxlx)",
+        "Test build with --plugin flag outputs to Studio plugins folder",
+        "Test build --watch rebuilds on file changes",
+        "Test build encodes tree correctly to binary format",
+        "Test build fails gracefully with invalid output path",
+        "Test build works with place, model, and plugin projects"
+      ],
+      "test_type": "integration",
+      "estimated_sessions": 2
+    },
+    {
+      "id": "deployment-upload",
+      "name": "Project Deployment and Upload",
+      "description": "User runs 'rojo upload --asset_id <id>' to build the project and publish it to Roblox.com using either legacy authentication (cookie) or Open Cloud API (api_key + universe_id)",
+      "priority": "P1",
+      "coverage": "50%",
+      "files": [
+        "src/cli/upload.rs",
+        "src/auth_cookie.rs",
+        "src/serve_session.rs"
+      ],
+      "proposed_tests": [
+        "Test upload with valid authentication cookie",
+        "Test upload with Open Cloud API credentials",
+        "Test upload finds auth cookie from system",
+        "Test upload fails without authentication",
+        "Test upload encodes model correctly",
+        "Test upload POST request to Roblox API",
+        "Test error handling for invalid asset IDs",
+        "Test deprecation warning when mixing cookie and api_key"
+      ],
+      "test_type": "integration",
+      "estimated_sessions": 2
+    },
+    {
+      "id": "patch-computation",
+      "name": "Patch Computation and Application",
+      "description": "When filesystem changes occur, compute minimal patch sets that describe differences, then apply those patches to update the instance tree atomically and queue messages for clients",
+      "priority": "P0",
+      "coverage": "65%",
+      "files": [
+        "src/snapshot/patch_compute.rs",
+        "src/snapshot/patch_apply.rs",
+        "src/snapshot/patch.rs",
+        "src/change_processor.rs"
+      ],
+      "proposed_tests": [
+        "Test patch computation for added instances",
+        "Test patch computation for removed instances",
+        "Test patch computation for modified properties",
+        "Test patch application idempotence",
+        "Test patch set ordering and consistency",
+        "Test message queue delivery of applied patches",
+        "Test concurrent patch processing"
+      ],
+      "test_type": "unit",
+      "estimated_sessions": 2
+    },
+    {
+      "id": "plugin-communication",
+      "name": "Studio Plugin Communication",
+      "description": "Rojo server communicates with the Roblox Studio plugin via HTTP API endpoints and WebSocket connections, handling server info requests, tree reads, serialization, and write operations",
+      "priority": "P0",
+      "coverage": "45%",
+      "files": [
+        "src/web/api.rs",
+        "src/web/interface.rs",
+        "src/web_api.rs",
+        "src/web/mod.rs",
+        "plugin/"
+      ],
+      "proposed_tests": [
+        "Test /api/rojo endpoint returns server info",
+        "Test /api/read/* endpoints return instance data",
+        "Test /api/socket WebSocket upgrade and message streaming",
+        "Test /api/serialize endpoint with tree serialization requests",
+        "Test /api/write endpoint applies writes from plugin",
+        "Test session ID validation prevents mixed version connections",
+        "Test protocol version checking",
+        "E2E test: plugin connects -> receives updates -> sends writes"
+      ],
+      "test_type": "integration",
+      "estimated_sessions": 2
+    },
+    {
+      "id": "syncback-filesystem",
+      "name": "Syncback: Studio to Filesystem",
+      "description": "User runs 'rojo syncback' to reverse-sync changes made in Studio back to the filesystem, preserving structure and converting instances back to files",
+      "priority": "P1",
+      "coverage": "55%",
+      "files": [
+        "src/cli/syncback.rs",
+        "src/syncback/mod.rs",
+        "src/syncback/snapshot.rs",
+        "src/syncback/fs_snapshot.rs",
+        "src/syncback/file_names.rs"
+      ],
+      "proposed_tests": [
+        "Test syncback reads Studio model file",
+        "Test syncback converts instances to file system",
+        "Test syncback preserves file names and structure",
+        "Test syncback skips unchanged files",
+        "Test syncback handles property filtering",
+        "Test syncback detects file conflicts",
+        "Test syncback with nested projects"
+      ],
+      "test_type": "integration",
+      "estimated_sessions": 2
+    },
+    {
+      "id": "project-configuration",
+      "name": "Project Configuration and Resolution",
+      "description": "Load and parse project files (default.project.json), resolve nested projects, apply sync rules, and configure serve/build behavior based on project metadata",
+      "priority": "P1",
+      "coverage": "70%",
+      "files": [
+        "src/project.rs",
+        "src/resolution.rs",
+        "src/snapshot/mod.rs",
+        "src/snapshot_middleware/project.rs"
+      ],
+      "proposed_tests": [
+        "Test project file parsing (JSON/JSONC)",
+        "Test project validation",
+        "Test serve_port and serve_address configuration",
+        "Test servePlaceIds and serveAssetIds validation",
+        "Test nested project resolution",
+        "Test sync rules parsing and application",
+        "Test project name inference from path"
+      ],
+      "test_type": "unit",
+      "estimated_sessions": 1
+    }
+  ]
+}

@@ -1,0 +1,149 @@
+{
+  "version": "1.0",
+  "framework": "Hyper (Rust HTTP server)",
+  "endpoints": [
+    {
+      "method": "GET",
+      "path": "/api/rojo",
+      "description": "Get a summary of information about the server including version, protocol version, session ID, project name, and root instance ID",
+      "auth_required": false,
+      "file_path": "/Users/adamharris/Documents/repos/roblox/rojo/src/web/api.rs",
+      "line_number": 37,
+      "handler_function": "handle_api_rojo",
+      "response_schema": {
+        "session_id": "string",
+        "server_version": "string",
+        "protocol_version": "number",
+        "project_name": "string",
+        "expected_place_ids": "array|null",
+        "unexpected_place_ids": "array|null",
+        "game_id": "number|null",
+        "place_id": "number|null",
+        "root_instance_id": "Ref"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/read/{id}",
+      "description": "Read instance data for specified instance IDs. Supports comma-separated list of IDs and returns all descendants",
+      "auth_required": false,
+      "file_path": "/Users/adamharris/Documents/repos/roblox/rojo/src/web/api.rs",
+      "line_number": 38,
+      "handler_function": "handle_api_read",
+      "request_parameters": {
+        "id": "comma-separated Ref values"
+      },
+      "response_schema": {
+        "session_id": "string",
+        "message_cursor": "number",
+        "instances": "object<Ref, Instance>"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/socket/{cursor}",
+      "description": "WebSocket upgrade endpoint for real-time message streaming. Requires WebSocket upgrade request",
+      "auth_required": false,
+      "file_path": "/Users/adamharris/Documents/repos/roblox/rojo/src/web/api.rs",
+      "line_number": 41,
+      "handler_function": "handle_api_socket",
+      "websocket": true,
+      "request_parameters": {
+        "cursor": "number (message cursor position)"
+      },
+      "websocket_frames": {
+        "incoming": "Messages, Ping, Pong, Close",
+        "outgoing": "SocketPacket (type: messages)"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/write",
+      "description": "Write instance updates to the tree. Requires session ID validation",
+      "auth_required": true,
+      "file_path": "/Users/adamharris/Documents/repos/roblox/rojo/src/web/api.rs",
+      "line_number": 59,
+      "handler_function": "handle_api_write",
+      "request_body": {
+        "session_id": "string",
+        "removed": "array<Ref>",
+        "added": "object<Ref, object>",
+        "updated": "array<InstanceUpdate>"
+      },
+      "response_schema": {
+        "session_id": "string"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/serialize",
+      "description": "Serialize instances to binary model format. Returns base64-encoded binary data as a Roblox buffer",
+      "auth_required": true,
+      "file_path": "/Users/adamharris/Documents/repos/roblox/rojo/src/web/api.rs",
+      "line_number": 53,
+      "handler_function": "handle_api_serialize",
+      "request_body": {
+        "session_id": "string",
+        "ids": "array<Ref>"
+      },
+      "response_schema": {
+        "session_id": "string",
+        "model_contents": {
+          "m": "object",
+          "t": "string (buffer)",
+          "base64": "string (base64-encoded binary data)"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/ref-patch",
+      "description": "Get referent property patches for specified instance IDs. Used to update referent properties after serialize",
+      "auth_required": true,
+      "file_path": "/Users/adamharris/Documents/repos/roblox/rojo/src/web/api.rs",
+      "line_number": 54,
+      "handler_function": "handle_api_ref_patch",
+      "request_body": {
+        "session_id": "string",
+        "ids": "array<Ref>"
+      },
+      "response_schema": {
+        "session_id": "string",
+        "patch": {
+          "removed": "array<Ref>",
+          "added": "object<Ref, Instance>",
+          "updated": "array<InstanceUpdate>"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/open/{id}",
+      "description": "Open a script with the given ID in the user's default text editor. Searches for .lua or .luau files",
+      "auth_required": false,
+      "file_path": "/Users/adamharris/Documents/repos/roblox/rojo/src/web/api.rs",
+      "line_number": 56,
+      "handler_function": "handle_api_open",
+      "request_parameters": {
+        "id": "Ref (instance ID)"
+      },
+      "response_schema": {
+        "session_id": "string"
+      }
+    }
+  ],
+  "websocket_handler": {
+    "name": "handle_websocket_subscription",
+    "file_path": "/Users/adamharris/Documents/repos/roblox/rojo/src/web/api.rs",
+    "line_number": 458,
+    "description": "Handles WebSocket subscription for real-time tree updates and message streaming"
+  },
+  "server_setup": {
+    "framework": "Hyper 0.14",
+    "file_path": "/Users/adamharris/Documents/repos/roblox/rojo/src/web/mod.rs",
+    "line_number": 33,
+    "struct": "LiveServer",
+    "port": "user-specified via serve command",
+    "notes": "Routes prefixed with /api are handled by api::call(), other routes go to ui::call()"
+  }
+}

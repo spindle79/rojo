@@ -1,0 +1,239 @@
+{
+  "version": "1.0",
+  "extracted_at": "2026-02-11T00:00:00Z",
+  "source": "custom-css",
+  "source_files": [
+    "assets/index.css"
+  ],
+  "verified_visually": false,
+  "framework": {
+    "type": "server-side-rendered",
+    "template_engine": "ritz",
+    "language": "Rust",
+    "description": "Rojo uses Rust-based HTML templating via ritz for server-side rendering. The web UI serves static HTML pages with embedded CSS."
+  },
+  "colors": {
+    "background": {
+      "primary": {
+        "value": "#e7e7e7",
+        "css_selector": "body"
+      },
+      "secondary": {
+        "value": "#efefef",
+        "css_selector": ".root"
+      }
+    },
+    "border": {
+      "default": {
+        "value": "#666666",
+        "css_selector": "border-color"
+      },
+      "light": {
+        "value": "#999999",
+        "css_selector": ".vfs-entry-children"
+      },
+      "subtle": {
+        "value": "#bbbbbb",
+        "css_selector": ".expandable-input:checked ~ .expandable-label"
+      }
+    },
+    "text": {
+      "primary": {
+        "value": "inherit",
+        "note": "Inherits from parent elements"
+      }
+    }
+  },
+  "typography": {
+    "font_families": {
+      "sans": [
+        "sans-serif"
+      ],
+      "mono": [
+        "monospace"
+      ]
+    },
+    "font_sizes": {
+      "base": "18px",
+      "section_title": "1.8rem",
+      "instance_title": "1.2rem"
+    },
+    "font_weights": {
+      "normal": "400",
+      "bold": "700"
+    },
+    "line_heights": {
+      "normal": "1.4"
+    }
+  },
+  "spacing": {
+    "unit": "0.25rem",
+    "scale": {
+      "0": "0",
+      "0.25rem": "0.25rem",
+      "0.5rem": "0.5rem",
+      "0.75rem": "0.75rem",
+      "1rem": "1rem",
+      "1.2em": "1.2em",
+      "1.8em": "1.8em"
+    },
+    "padding": {
+      "default": "0",
+      "section": "0.5rem 1rem",
+      "main": "1rem"
+    },
+    "margin": {
+      "default": "0",
+      "root": "0.5rem auto",
+      "section": "0.25rem 0.5rem",
+      "instance": "0.5rem",
+      "button": "1rem",
+      "list_item": "1.2em"
+    }
+  },
+  "breakpoints": {
+    "container_max_width": "50rem"
+  },
+  "border_radius": {
+    "default": "4px"
+  },
+  "shadows": {},
+  "animations": {
+    "transforms": {
+      "expandable_visualizer": {
+        "duration": "100ms",
+        "easing": "ease-in-out",
+        "description": "Rotation effect for expand/collapse indicators"
+      }
+    }
+  },
+  "components": {
+    "root": {
+      "display": "flex",
+      "flex_direction": "column",
+      "margin": "0.5rem auto",
+      "width": "100%",
+      "max_width": "50rem",
+      "background_color": "#efefef",
+      "border": "1px solid #666",
+      "border_radius": "4px"
+    },
+    "header": {
+      "flex": "0 0",
+      "display": "flex",
+      "flex_wrap": "wrap",
+      "align_items": "center",
+      "border_bottom": "1px solid #666"
+    },
+    "main": {
+      "padding": "1rem"
+    },
+    "main_logo": {
+      "flex": "0 0 10rem",
+      "margin": "1rem"
+    },
+    "stats": {
+      "flex": "0 0 20rem",
+      "margin": "1rem"
+    },
+    "button": {
+      "display": "inline-block",
+      "border": "1px solid #666",
+      "padding": "0.3em 1em",
+      "margin": "1rem"
+    },
+    "button_list": {
+      "flex": "0 0",
+      "display": "flex",
+      "flex_wrap": "wrap",
+      "justify_content": "space-around",
+      "margin": "-1rem"
+    },
+    "instance": {
+      "margin_bottom": "0.5rem"
+    },
+    "instance_title": {
+      "font_size": "1.2rem",
+      "padding": "0.5rem"
+    },
+    "expandable_section": {
+      "margin": "0.25rem 0.5rem"
+    },
+    "expandable_items": {
+      "padding": "0.5rem 1rem"
+    },
+    "expandable_visualizer": {
+      "display": "inline-flex",
+      "align_items": "center",
+      "align_content": "center",
+      "text_align": "center",
+      "width": "1rem",
+      "height": "1rem",
+      "font_size": "2rem",
+      "margin": "0 0.5rem",
+      "transition": "transform 100ms ease-in-out",
+      "transform_origin": "60% 60%",
+      "content": "›"
+    },
+    "vfs_entry_name": {
+      "position": "relative",
+      "font_family": "monospace"
+    },
+    "vfs_entry_children": {
+      "padding_left": "0.8em",
+      "margin_left": "0.2em",
+      "border_left": "1px solid #999"
+    }
+  },
+  "ui_elements": {
+    "html": {
+      "box_sizing": "border-box",
+      "font_family": "sans-serif",
+      "font_size": "18px",
+      "text_decoration": "none",
+      "line_height": "1.4"
+    },
+    "universal_selector": {
+      "margin": "0",
+      "padding": "0",
+      "border": "none",
+      "text_decoration": "inherit",
+      "color": "inherit",
+      "font": "inherit",
+      "box_sizing": "inherit",
+      "line_height": "inherit"
+    }
+  },
+  "_visual_verification": {
+    "verified": false,
+    "reason": "No development server available. This is a Rust backend project that generates server-side rendered HTML. Visual verification would require running the Rojo server locally."
+  },
+  "_metadata": {
+    "analysis_notes": "Rojo is a Rust-based project with a minimalist web UI for development and debugging. The UI is rendered server-side using the 'ritz' HTML templating library. The CSS is custom and embedded directly in HTML responses. The design system is simple and utilitarian, focused on development debugging rather than user-facing aesthetics. No external CSS frameworks (Tailwind, Bootstrap, etc.) are used. The color scheme is light gray with dark gray borders and text, designed for readability during development.",
+    "files_analyzed": [
+      "assets/index.css",
+      "src/web/ui.rs",
+      "src/web/assets.rs",
+      "Cargo.toml"
+    ],
+    "warnings": [
+      "This is a server-side rendered Rust application, not a traditional JavaScript/TypeScript frontend",
+      "The 'ritz' template engine is used for HTML generation within Rust",
+      "CSS is custom-written with no design system framework (Tailwind, MUI, etc.)",
+      "No CSS variables or theming system detected",
+      "Web UI is minimal and primarily for development/debugging purposes"
+    ],
+    "web_framework_details": {
+      "template_engine": "ritz",
+      "rendering": "server-side",
+      "http_framework": "hyper",
+      "language": "Rust",
+      "available_routes": [
+        "GET / - Home page with links",
+        "GET /logo.png - Logo image",
+        "GET /icon.png - Favicon",
+        "GET /show-instances - Instance tree viewer"
+      ]
+    }
+  }
+}

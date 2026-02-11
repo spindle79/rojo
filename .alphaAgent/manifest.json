@@ -1,0 +1,103 @@
+{
+  "$schema": "https://alphaagent.dev/schemas/manifest/v1.json",
+  "manifest_version": "1.0.0",
+  "spec_version": "1.0.0",
+  "min_harness_version": "0.9.0",
+  "created_at": "2026-02-11T19:13:24Z",
+  "updated_at": "2026-02-11T19:13:24Z",
+  "project": {
+    "name": "rojo",
+    "description": "Enables professional-grade development tools for Roblox developers - enables use of VS Code, Git, and other industry-standard tools for Roblox game development",
+    "repository": "https://github.com/rojo-rbx/rojo",
+    "version": "7.7.0-rc.1",
+    "license": "MPL-2.0"
+  },
+  "discovery": {
+    "method": "ai_discovery",
+    "session_id": "import/discovery-2",
+    "completed_at": "2026-02-11T19:13:24Z",
+    "status": "success",
+    "agents_invoked": [
+      "spec-features-maintainer",
+      "spec-schema-maintainer",
+      "spec-api-maintainer",
+      "spec-design-maintainer",
+      "spec-env-maintainer",
+      "spec-critical-paths-maintainer",
+      "spec-tech-stack-maintainer",
+      "quality-lessons-maintainer",
+      "quality-issues-maintainer"
+    ]
+  },
+  "files": [
+    {
+      "path": "spec/features.json",
+      "status": "complete",
+      "items_found": 33
+    },
+    {
+      "path": "spec/schema.json",
+      "status": "complete",
+      "items_found": 0,
+      "notes": "No database - Rojo is a CLI tool with in-memory state"
+    },
+    {
+      "path": "spec/schema.sql",
+      "status": "complete",
+      "notes": "Not applicable for CLI tool"
+    },
+    {
+      "path": "spec/api-endpoints.json",
+      "status": "complete",
+      "items_found": 5
+    },
+    {
+      "path": "spec/design-system.json",
+      "status": "complete",
+      "items_found": "N/A",
+      "notes": "Web UI uses server-side rendering via Ritz"
+    },
+    {
+      "path": "spec/env-vars.json",
+      "status": "complete",
+      "items_found": 12
+    },
+    {
+      "path": "spec/critical-paths.json",
+      "status": "complete",
+      "items_found": 5
+    },
+    {
+      "path": "spec/tech-stack.json",
+      "status": "complete",
+      "items_found": 58
+    },
+    {
+      "path": "quality/lessons.json",
+      "status": "complete",
+      "items_found": 8
+    },
+    {
+      "path": "quality/issues.json",
+      "status": "complete",
+      "items_found": 24
+    },
+    {
+      "path": "team/agents.json",
+      "status": "generated"
+    },
+    {
+      "path": "team/skills.json",
+      "status": "generated"
+    }
+  ],
+  "summary": {
+    "features_found": 33,
+    "api_endpoints": 5,
+    "env_vars": 12,
+    "critical_paths": 5,
+    "tech_stack_items": 58,
+    "lessons_found": 8,
+    "issues_found": 24
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "mcpServers": {
+    "playwright": {
+      "command": "npx",
+      "args": [
+        "@playwright/mcp@latest"
+      ]
+    },
+    "database-mcp": {
+      "command": "npx",
+      "args": [
+        "tsx",
+        "/Users/adamharris/Documents/repos/alphaagent/src/server/mcp-servers/database-mcp/index.ts"
+      ],
+      "env": {
+        "DATABASE_PATH": "/Users/adamharris/Documents/repos/alphaagent/data/alphaagent.db",
+        "PROJECT_PATH": "/Users/adamharris/Documents/repos/roblox/rojo"
+      }
+    }
+  }
+}

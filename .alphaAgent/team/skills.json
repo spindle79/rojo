@@ -1,0 +1,41 @@
+{
+  "version": "1.0",
+  "updated_at": "2026-02-11T19:13:24Z",
+  "recommended_skills": [
+    {
+      "name": "rust-async",
+      "recommended": true,
+      "reason": "Tokio runtime, async/await patterns, and channel-based concurrency throughout codebase"
+    },
+    {
+      "name": "websocket-protocol",
+      "recommended": true,
+      "reason": "Real-time bidirectional sync via Hyper-Tungstenite WebSocket protocol with custom message types"
+    },
+    {
+      "name": "snapshot-testing",
+      "recommended": true,
+      "reason": "Heavy use of Insta snapshot tests for instance tree transformations and patch application"
+    },
+    {
+      "name": "virtual-filesystem",
+      "recommended": true,
+      "reason": "Custom in-memory VFS abstraction (memofs) for efficient file watching and testing"
+    },
+    {
+      "name": "roblox-api",
+      "recommended": true,
+      "reason": "Deep integration with rbx-dom ecosystem for instance manipulation and serialization"
+    },
+    {
+      "name": "cli-design",
+      "recommended": true,
+      "reason": "Multiple CLI commands (serve, build, plugin, upload, syncback) with Clap argument parsing"
+    },
+    {
+      "name": "cross-platform",
+      "recommended": true,
+      "reason": "Windows Registry integration, path handling, and Roblox Studio detection across platforms"
+    }
+  ]
+}

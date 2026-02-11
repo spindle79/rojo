@@ -1,0 +1,154 @@
+-- ==============================================
+-- Rojo In-Memory Data Structure Schema
+-- Generated: 2026-02-11
+-- Note: Rojo does NOT use a traditional database
+-- ==============================================
+--
+-- This document describes the in-memory data structures used by Rojo,
+-- a Rust CLI tool for Roblox development. These structures are NOT
+-- persisted in a database but are held in memory during a serve session.
+--
+-- Data Structures:
+-- 1. ServeSession - Main session state container
+-- 2. RojoTree - Instance hierarchy with metadata
+-- 3. InstanceSnapshot - Lightweight instance description
+-- 4. PatchSet - Incremental mutations
+-- 5. InstanceMetadata - Rojo-specific instance information
+-- 6. Project - Configuration from .project.json
+--
+-- Thread Safety:
+-- - Arc<Mutex<>> used for shared mutable state across threads
+-- - Channels used for cross-thread communication
+-- - ChangeProcessor runs in separate thread
+--
+-- Key Facts:
+-- - No SQL database used
+-- - No schema migrations
+-- - All data structures are in-memory Rust objects
+-- - Persistence is through .project.json files (JSON configuration)
+-- - VFS (Virtual FileSystem) stores file snapshots in memory
+--
+
+-- ===== CONCEPTUAL REPRESENTATION OF SERVE SESSION =====
+-- struct ServeSession {
+--     change_processor: ChangeProcessor,           // Runs in separate thread
+--     start_time: Instant,                         // Timestamp
+--     root_project: Project,                       // Configuration
+--     session_id: SessionId,                       // UUID
+--     tree: Arc<Mutex<RojoTree>>,                  // Thread-safe instance tree
+--     vfs: Arc<Vfs>,                               // In-memory filesystem
+--     message_queue: Arc<MessageQueue<...>>,       // Change notifications
+--     tree_mutation_sender: Sender<PatchSet>,      // Channel to ChangeProcessor
+-- }
+
+-- ===== CONCEPTUAL REPRESENTATION OF INSTANCE TREE =====
+-- struct RojoTree {
+--     inner: WeakDom,                              // rbx-dom instance storage
+--     metadata_map: HashMap<Ref, InstanceMetadata>, // Per-instance metadata
+--     path_to_ids: MultiMap<PathBuf, Ref>,        // Source path to instance refs
+--     specified_id_to_refs: MultiMap<RojoRef, Ref>, // User-specified IDs
+-- }
+
+-- ===== CONCEPTUAL REPRESENTATION OF INSTANCE SNAPSHOT =====
+-- struct InstanceSnapshot {
+--     snapshot_id: Ref,                            // Temporary ID for Ref properties
+--     metadata: InstanceMetadata,                  // Rojo-specific metadata
+--     name: Cow<'static, str>,                     // Instance name
+--     class_name: Ustr,                            // Roblox class (e.g., "Folder")
+--     properties: UstrMap<Variant>,                // Weakly-typed properties
+--     children: Vec<InstanceSnapshot>,             // Child instances (ordered)
+-- }
+
+-- ===== CONCEPTUAL REPRESENTATION OF INSTANCE METADATA =====
+-- struct InstanceMetadata {
+--     ignore_unknown_instances: bool,              // Sync behavior flag
+--     instigating_source: Option<InstigatingSource>, // Path or ProjectNode
+--     relevant_paths: Vec<PathBuf>,                // File dependencies
+--     context: InstanceContext,                    // Persistent context
+--     specified_id: Option<RojoRef>,               // Custom instance ID
+--     middleware: Option<Middleware>,              // Creation strategy (Lua, Json, etc)
+--     schema: Option<String>,                      // JSON schema (if applicable)
+-- }
+
+-- ===== CONCEPTUAL REPRESENTATION OF PATCH SET =====
+-- struct PatchSet {
+--     removed_instances: Vec<Ref>,                 // Instances to delete
+--     added_instances: Vec<PatchAdd>,              // Instances to create
+--     updated_instances: Vec<PatchUpdate>,         // Instances to modify
+-- }
+
+-- ===== CONCEPTUAL REPRESENTATION OF PROJECT CONFIG =====
+-- struct Project {
+--     name: Option<String>,                        // Top-level instance name
+--     tree: ProjectNode,                           // Instance tree definition
+--     serve_port: Option<u16>,                     // Default serve port
+--     serve_place_ids: Option<HashSet<u64>>,       // Compatible place IDs
+--     blocked_place_ids: Option<HashSet<u64>>,     // Blocked place IDs
+--     place_id: Option<u64>,                       // Current place ID
+--     game_id: Option<u64>,                        // Current game ID
+--     emit_legacy_scripts: Option<bool>,           // Legacy script emission flag
+-- }
+
+-- ===== DATA FLOW =====
+-- 1. Project is loaded from .project.json
+-- 2. Snapshots are computed from VFS (Virtual FileSystem)
+-- 3. Initial PatchSet is computed (initial -> desired state)
+-- 4. PatchSet is applied to RojoTree
+-- 5. AppliedPatchSet is queued for clients
+-- 6. VFS changes trigger ChangeProcessor
+-- 7. New snapshots are computed for changed files
+-- 8. New patches are computed and applied to tree
+-- 9. Changes are queued for connected clients (Studio plugin)
+
+-- ===== KEY COMPONENTS NOT PERSISTED =====
+-- - ChangeProcessor: Listens to file changes in separate thread
+-- - MessageQueue: Distributes changes to multiple client subscribers
+-- - Vfs (Virtual FileSystem): In-memory representation of project files
+-- - WeakDom: Instance hierarchy from rbx-dom library
+
+-- ===== STORAGE MECHANISMS =====
+-- Memory Structure: All data kept in Arc-wrapped and Mutex-protected Rust objects
+-- Thread Communication: Channels (crossbeam-channel) for async messaging
+-- Synchronization: Arc + Mutex for safe shared mutable state
+-- Reference Tracking: Ref type for instance identity (from rbx-dom-weak)
+
+-- ===== MIDDLEWARE TYPES =====
+-- Middleware describes how files are transformed into instances:
+-- - Lua: .lua files -> Scripts/LocalScripts
+-- - Json: .json files -> Instance models with properties
+-- - Yaml: .yaml files -> Instance hierarchies
+-- - Toml: .toml files -> Configuration
+-- - Csv: .csv files -> Structured data
+-- - Project: .project.json files -> Nested instance trees
+
+-- ===== SYNC RULES =====
+-- struct SyncRule {
+--     include: Glob,                   // Pattern to include files
+--     exclude: Option<Glob>,           // Pattern to exclude files
+--     middleware: Middleware,          // How to transform matched files
+--     suffix: Option<String>,          // Suffix to trim from names
+--     base_path: PathBuf,              // Relative path base
+-- }
+
+-- ===== REFERENCES AND IDENTITY =====
+-- - Ref: Internal reference type from rbx-dom-weak crate
+-- - RojoRef: User-specified string identifier for cross-file references
+-- - SessionId: UUID to ensure client-server consistency
+-- - Snapshot ID: Temporary ref used during snapshotting
+
+-- ===== PERFORMANCE CHARACTERISTICS =====
+-- - RojoTree optimized for incremental updates
+-- - MultiMap used for efficient path->instance lookups
+-- - Metadata kept separate from DOM for flexibility
+-- - Patches are computed incrementally (only changed nodes)
+-- - VFS allows fast file change detection without disk I/O
+
+-- ===== NO DATABASE TABLES =====
+-- Rojo does not use SQL databases or persistent storage.
+-- All information is computed from:
+-- 1. Project configuration (.project.json files)
+-- 2. Source files (Lua, Json, Yaml, etc.)
+-- 3. In-memory snapshots and patches
+--
+-- This design allows Rojo to serve live-sync features without
+-- database overhead, making it lightweight for development workflows.
